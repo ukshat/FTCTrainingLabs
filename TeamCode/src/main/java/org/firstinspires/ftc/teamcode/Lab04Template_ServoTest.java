@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Servo Test")
-public class Lab4Template_ServoTest extends LinearOpMode {
+public class Lab04Template_ServoTest extends LinearOpMode {
     private Servo servo; //Define Servo object to store data about and control the physical servo
 
     @Override
