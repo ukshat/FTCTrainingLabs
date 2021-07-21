@@ -26,5 +26,7 @@ public class Lab04Solution_ServoTest extends LinearOpMode {
 
             sleep(5000); //sleep 5s
         }
+
+        stop();
     }
 }

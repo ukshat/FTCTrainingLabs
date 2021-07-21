@@ -23,5 +23,7 @@ public class Lab14Solution_EncoderTest extends LinearOpMode {
 
             sleep(50);
         }
+
+        stop();
     }
 }
