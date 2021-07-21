@@ -10,6 +10,5 @@ public class Lab2Template_HelloWorld extends LinearOpMode {
 
         //YOUR CODE HERE
 
-
     }
 }
