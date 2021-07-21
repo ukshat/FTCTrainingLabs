@@ -35,9 +35,11 @@ public class Lab12Solution_Gyro2Test extends LinearOpMode {
         float lastAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         float currentAngle, netAngle = 0;
 
+        //The very nature of using this algorithm for tracking rotation forces the program to 0 whenever the netAngle variable becomes 0, so no extra steps are required to zero the IMU, and zeroing it in the future is as simple as setting this variable to zero, as it is not reliant on any other external variables
+
         waitForStart();
 
-        //There are many of ways to achieve the desired behaviour where a 270 degree rotation does not return -90, but rather 270.
+        //There are many ways to achieve the desired behaviour where a 270 degree rotation does not return -90, but rather 270.
         //The method I have chosen is mathematically elegant and retains very high precision, consistency, and extremely minimal calculations and code, but is somewhat more complex than other methods
         for(int i = 1; opModeIsActive(); i++){ //loop while the opmode has not ended, while simultaneously counting the number of iterations that have passed
             currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle; //update current angle
