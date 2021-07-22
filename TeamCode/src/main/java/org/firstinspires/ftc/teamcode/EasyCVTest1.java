@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -28,38 +27,42 @@ public class EasyCVTest1 extends LinearOpMode {
 }
 
 class Color {
-    public double[] val;
+    private double[] HSVs;
 
-    public Color(double v0, double v1, double v2, String colorModel) {
-        val = new double[] {v0, v1, v2};
-        val = toHSV(colorModel);
+    private Color(double H, double S, double V) {
+        HSVs = new double[] {H, S, V};
     }
 
-    public Color(double[] vals, String colorModel) {
-        if (vals.length != 3)
-            throw new ArrayIndexOutOfBoundsException("You must provide three values for a Color.");
-        val = vals.clone();
-        val = toHSV(colorModel);
+    public static Color fromHSV(double H, double S, double V){
+        return new Color(H, S, V);
     }
 
-    private double[] toHSV(String colorModel) {
-        if (colorModel.equalsIgnoreCase("HSV")) return val;
-        else if (colorModel.equalsIgnoreCase("RGB")) {
-            // RGB to HSV algorithm adapted from https://stackoverflow.com/q/2399150
-            if (!(val[0] >= 0 && val[0] <= 255 && val[1] >= 0 && val[1] <= 255 && val[2] >= 0 && val[2] <= 255))
-                throw new IllegalArgumentException("Make sure R, G, and B are all in [0, 255]");
-            if (val[0] == val[1] && val[1] == val[2]) return new double[] {0, 0, val[0] / 255};
-            double h, s, r = val[0], g = val[1], b = val[2], max, delta;
-            max = Math.max(Math.max(r, g), b);
-            delta = max - Math.min(Math.min(r, g), b);
-            s = delta / max;
-            if (r == max) h = (g - b) / delta;
-            else if (g == max) h = 2 + (b - r) / delta;
-            else h = 4 + (r - g) / delta;
-            h *= 60;
-            if (h < 0) h += 360;
-            return new double[] {h, s * 255, max};
-        } else throw new IllegalArgumentException(colorModel + " is not a valid color model");
+    public static Color fromRGB(double R, double G, double B){
+        double[] HSV = RGBToHSV(new double[] {R, G, B});
+        return new Color(HSV[0], HSV[1], HSV[2]);
+    }
+
+    private static double[] RGBToHSV(double[] RGBs) {
+        // RGB to HSV algorithm adapted from https://stackoverflow.com/q/2399150
+        if (!(RGBs[0] >= 0 && RGBs[0] <= 255 && RGBs[1] >= 0 && RGBs[1] <= 255 && RGBs[2] >= 0 && RGBs[2] <= 255))
+            throw new IllegalArgumentException("Make sure R, G, and B are all in [0, 255]");
+        if (RGBs[0] == RGBs[1] && RGBs[1] == RGBs[2])
+            return new double[] {0, 0, RGBs[0] / 255};
+        double h, s, r = RGBs[0], g = RGBs[1], b = RGBs[2], max, delta;
+        max = Math.max(Math.max(r, g), b);
+        delta = max - Math.min(Math.min(r, g), b);
+        s = delta / max;
+        if (r == max) h = (g - b) / delta;
+        else if (g == max) h = 2 + (b - r) / delta;
+        else h = 4 + (r - g) / delta;
+        h *= 60;
+        if (h < 0) h += 360;
+        return new double[] {h, s * 255, max};
+
+    }
+
+    public double[] getHSV(){
+        return HSVs;
     }
 
 }
@@ -196,17 +199,14 @@ class EasyCV{
     public boolean getPercentColor(final String tagLine, final Color lowerBound, final Color upperBound){
         return imageComputationProcedure(tagLine, new Runnable() {
             @Override
-            public void run() {//this stuff is async
-                //calculate
+            public void run() {
 
-                Imgproc.cvtColor(lastMat, lastMat, Imgproc.COLOR_RGB2HSV_FULL);
-                Core.inRange(lastMat, new Scalar(lowerBound.val), new Scalar(upperBound.val), lastMat);
-                double percentColor = Core.sumElems(lastMat).val[0] / (lastMat.width() * lastMat.height()) / 255;
+                Mat copy = new Mat();
 
-                //calculate
-                //calculate
+                Imgproc.cvtColor(lastMat, copy, Imgproc.COLOR_RGB2HSV_FULL);
+                Core.inRange(copy, new Scalar(lowerBound.getHSV()), new Scalar(upperBound.getHSV()), lastMat);
 
-                dataLoaded(tagLine, 12.3456789); //after calculating, the data will be loaded into the hashmap, and the user can get the loaded data from the queue handling methods. This also allows the user to only pull data when they need it, and not demand that they store it immediately
+                dataLoaded(tagLine, Core.sumElems(lastMat).val[0] / (lastMat.width() * lastMat.height()) / 255); //after calculating, the data will be loaded into the hashmap, and the user can get the loaded data from the queue handling methods. This also allows the user to only pull data when they need it, and not demand that they store it immediately
             }
         });
     }
@@ -214,8 +214,8 @@ class EasyCV{
     public boolean averageColor(final String tagLine){
         return imageComputationProcedure(tagLine, new Runnable() {
             @Override
-            public void run() {//this stuff is async
-                dataLoaded(tagLine, 12.3456789);
+            public void run() {
+                dataLoaded(tagLine, Color.fromHSV);
             }
         });
     }
