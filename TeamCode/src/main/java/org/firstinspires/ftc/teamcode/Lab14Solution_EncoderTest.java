@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "Encoder Test")
 public class Lab14Solution_EncoderTest extends LinearOpMode {
+
     DcMotor motor; //Define DcMotor
 
     @Override
