@@ -193,11 +193,15 @@ class EasyCV{
     }
 
     //this is an example of how an input method would work. So if someone wanted to know the percent yellow, this is how the EasyCV would do it
-    public boolean getPercentColor(final String tagLine, Color lowerBound, Color upperBound){
+    public boolean getPercentColor(final String tagLine, final Color lowerBound, final Color upperBound){
         return imageComputationProcedure(tagLine, new Runnable() {
             @Override
             public void run() {//this stuff is async
                 //calculate
+
+                Imgproc.cvtColor(lastMat, lastMat, Imgproc.COLOR_RGB2HSV_FULL);
+                Core.inRange(lastMat, new Scalar(lowerBound.val), new Scalar(upperBound.val), lastMat);
+                double percentColor = Core.sumElems(lastMat).val[0] / (lastMat.width() * lastMat.height()) / 255;
 
                 //calculate
                 //calculate
