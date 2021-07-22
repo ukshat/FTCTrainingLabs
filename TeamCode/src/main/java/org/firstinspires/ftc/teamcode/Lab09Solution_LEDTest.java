@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-@Autonomous(name = "Color Test")
+@Autonomous(name = "LED Test")
 public class Lab09Solution_LEDTest extends LinearOpMode {
 
     private DigitalChannel redLed, greenLed;

@@ -11,9 +11,9 @@ public class Lab10Solution_SwitchLedTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart();
-
         stateMachine = new SwitchLedStateMachine("testswitch", "testRedLED", "testGreenLED"); //Initialize state machine
+
+        waitForStart();
 
         while(opModeIsActive()){ //Loop until termination
             stateMachine.run(); //Execute State Machine
