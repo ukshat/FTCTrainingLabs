@@ -9,11 +9,12 @@ public class Lab02Solution_HelloWorld extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         waitForStart(); //Self explanatory
 
-        telemetry.addLine("Hello World"); //Add data to telemetry queue
-        telemetry.update(); //Update telemetry queue, pushes "Hello World" to the driver station
-
-        //This is to allow the operator to actually see the Hello World message, without this line, the program would immediately terminate, and therefore the operator would never see the telemetry data in time
-        sleep(10000); //blocks the code from executing for 10000ms (10000ms = 10s)
+        // If you don't surround the telemetry with a while loop, it will immediately go away after you print it because
+        // the OpMode would have ended.
+        while(opModeIsActive()) {
+            telemetry.addLine("Hello World"); //Add line to telemetry queue
+            telemetry.update(); //Update telemetry queue, pushes "Hello World" to the driver station
+        }
 
         stop(); //Safely terminates the opMode
     }
