@@ -37,6 +37,12 @@ class Color {
         return new Color(H, S, V);
     }
 
+    public static Color fromHSV(double[] HSVVals){
+        if(HSVVals.length != 3)
+            throw new IllegalArgumentException("Array Must contain exactly 3 values for Hue, Saturation, and Value");
+        return new Color(HSVVals[0], HSVVals[1], HSVVals[2]);
+    }
+
     public static Color fromRGB(double R, double G, double B){
         double[] HSV = RGBToHSV(new double[] {R, G, B});
         return new Color(HSV[0], HSV[1], HSV[2]);
@@ -215,7 +221,7 @@ class EasyCV{
         return imageComputationProcedure(tagLine, new Runnable() {
             @Override
             public void run() {
-                dataLoaded(tagLine, Color.fromHSV);
+                dataLoaded(tagLine, Color.fromHSV(Core.mean(lastMat).val));
             }
         });
     }
