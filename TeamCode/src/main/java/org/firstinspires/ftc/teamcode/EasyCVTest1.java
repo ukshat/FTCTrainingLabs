@@ -1,20 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.opencv.core.Scalar;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 @TeleOp(name = "Hello World")
@@ -24,6 +26,43 @@ public class EasyCVTest1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
     }
+}
+
+class Color {
+    public double[] val;
+
+    public Color(double v0, double v1, double v2, String colorModel) {
+        val = new double[] {v0, v1, v2};
+        val = toHSV(colorModel);
+    }
+
+    public Color(double[] vals, String colorModel) {
+        if (vals.length != 3)
+            throw new ArrayIndexOutOfBoundsException("You must provide three values for a Color.");
+        val = vals.clone();
+        val = toHSV(colorModel);
+    }
+
+    private double[] toHSV(String colorModel) {
+        if (colorModel.equalsIgnoreCase("HSV")) return val;
+        else if (colorModel.equalsIgnoreCase("RGB")) {
+            // RGB to HSV algorithm adapted from https://stackoverflow.com/q/2399150
+            if (!(val[0] >= 0 && val[0] <= 255 && val[1] >= 0 && val[1] <= 255 && val[2] >= 0 && val[2] <= 255))
+                throw new IllegalArgumentException("Make sure R, G, and B are all in [0, 255]");
+            if (val[0] == val[1] && val[1] == val[2]) return new double[] {0, 0, val[0] / 255};
+            double h, s, r = val[0], g = val[1], b = val[2], max, delta;
+            max = Math.max(Math.max(r, g), b);
+            delta = max - Math.min(Math.min(r, g), b);
+            s = delta / max;
+            if (r == max) h = (g - b) / delta;
+            else if (g == max) h = 2 + (b - r) / delta;
+            else h = 4 + (r - g) / delta;
+            h *= 60;
+            if (h < 0) h += 360;
+            return new double[] {h, s * 255, max};
+        } else throw new IllegalArgumentException(colorModel + " is not a valid color model");
+    }
+
 }
 
 class EasyCV{
@@ -143,7 +182,7 @@ class EasyCV{
     //THE FOLLOWING CODE HANDLES BASIC IMAGE PROCESSING
 
     //this is an example of how an input method would work. So if someone wanted to know the percent yellow, this is how the EasyCV would do it
-    public boolean getPercentColor(final String tagLine, Color lowerBound, Color upperBound){
+    public boolean getPercentColor(final String tagLine, final Color lowerBound, final Color upperBound){
         try {
             recievedCommand(tagLine); //this adds the tagline to the hashmap, and the user will know that the command to start calculating the percent yellow is being processed
 
@@ -152,10 +191,14 @@ class EasyCV{
                 public void run() {//this stuff is async
                     //calculate
 
+                    Imgproc.cvtColor(lastMat, lastMat, Imgproc.COLOR_RGB2HSV_FULL);
+                    Core.inRange(lastMat, new Scalar(lowerBound.val), new Scalar(upperBound.val), lastMat);
+                    double percentColor = Core.sumElems(lastMat).val[0] / (lastMat.width() * lastMat.height()) / 255;
+
                     //calculate
                     //calculate
 
-                    dataLoaded(tagLine, 12.3456789); //after calculating, the data will be loaded into the hashmap, and the user can get the loaded data from the queue handling methods. This also allows the user to only pull data when they need it, and not demand that they store it immediately
+                    dataLoaded(tagLine, percentColor); //after calculating, the data will be loaded into the hashmap, and the user can get the loaded data from the queue handling methods. This also allows the user to only pull data when they need it, and not demand that they store it immediately
                 }
             }).start();
 
