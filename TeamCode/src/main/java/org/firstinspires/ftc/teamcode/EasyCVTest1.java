@@ -16,7 +16,6 @@ import org.opencv.core.Scalar;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 @TeleOp(name = "Hello World")
@@ -181,30 +180,39 @@ class EasyCV{
 
     //THE FOLLOWING CODE HANDLES BASIC IMAGE PROCESSING
 
-    //this is an example of how an input method would work. So if someone wanted to know the percent yellow, this is how the EasyCV would do it
-    public boolean getPercentColor(final String tagLine, final Color lowerBound, final Color upperBound){
+    private final boolean imageComputationProcedure(String tagLine, Runnable code){
         try {
             recievedCommand(tagLine); //this adds the tagline to the hashmap, and the user will know that the command to start calculating the percent yellow is being processed
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {//this stuff is async
-                    //calculate
-
-                    Imgproc.cvtColor(lastMat, lastMat, Imgproc.COLOR_RGB2HSV_FULL);
-                    Core.inRange(lastMat, new Scalar(lowerBound.val), new Scalar(upperBound.val), lastMat);
-                    double percentColor = Core.sumElems(lastMat).val[0] / (lastMat.width() * lastMat.height()) / 255;
-
-                    //calculate
-                    //calculate
-
-                    dataLoaded(tagLine, percentColor); //after calculating, the data will be loaded into the hashmap, and the user can get the loaded data from the queue handling methods. This also allows the user to only pull data when they need it, and not demand that they store it immediately
-                }
-            }).start();
+            new Thread(code).start();
 
             return true;
         }catch(Exception e){
             return false;
         }
+    }
+
+    //this is an example of how an input method would work. So if someone wanted to know the percent yellow, this is how the EasyCV would do it
+    public boolean getPercentColor(final String tagLine, Color lowerBound, Color upperBound){
+        return imageComputationProcedure(tagLine, new Runnable() {
+            @Override
+            public void run() {//this stuff is async
+                //calculate
+
+                //calculate
+                //calculate
+
+                dataLoaded(tagLine, 12.3456789); //after calculating, the data will be loaded into the hashmap, and the user can get the loaded data from the queue handling methods. This also allows the user to only pull data when they need it, and not demand that they store it immediately
+            }
+        });
+    }
+
+    public boolean averageColor(final String tagLine){
+        return imageComputationProcedure(tagLine, new Runnable() {
+            @Override
+            public void run() {//this stuff is async
+                dataLoaded(tagLine, 12.3456789);
+            }
+        });
     }
 }
