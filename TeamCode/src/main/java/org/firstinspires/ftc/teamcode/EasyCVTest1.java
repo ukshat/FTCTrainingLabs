@@ -29,7 +29,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
 
 
-class EasyCV{
+final class EasyCV{
     public static class Color {
         private double[] HSVs;
 
@@ -79,7 +79,7 @@ class EasyCV{
     //THE FOLLOWING CODE HANDLES BASIC PIPELINE SETUP
 
     private OpenCvCamera webcam;
-    private Pipeline pipeline = new Pipeline();
+    private volatile Pipeline pipeline = new Pipeline();
     private volatile Mat lastMat;
     private LinearOpMode opMode;
 
@@ -92,6 +92,10 @@ class EasyCV{
     }
 
     public void start(int w, int h, OpenCvCameraRotation r){
+        xMin = 0;
+        yMin = 0;
+        xMax = w;
+        yMax = h;
         webcam.startStreaming(w, h, r);
     }
 
@@ -144,7 +148,7 @@ class EasyCV{
 
         @Override
         public Mat processFrame(Mat input) {
-            lastMat = input;
+            lastMat = input.submat(yMin, yMax, xMin, xMax);
 
             try {
                 if(streamingComputations)
@@ -247,7 +251,7 @@ class EasyCV{
                 case SYNCHRONOUS_SINGLE_FRAME:
                     (new Thread(code)).run();
 
-                case ASYNC_CONTINUOUS_STREAM:
+                case ASYNCHRONOUS_CONTINUOUS_STREAM:
                     streams.add(code);
             }
 
@@ -257,7 +261,6 @@ class EasyCV{
         }
     }
 
-    //this is an example of how an input method would work. So if someone wanted to know the percent yellow, this is how the EasyCV would do it
     public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, Configuration config){
         return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, lowerBound, upperBound), config);
     }
@@ -308,6 +311,37 @@ class EasyCV{
     public enum Configuration{
         ASYNCHRONOUS_SINGLE_FRAME,
         SYNCHRONOUS_SINGLE_FRAME,
-        ASYNC_CONTINUOUS_STREAM
+        ASYNCHRONOUS_CONTINUOUS_STREAM
     }
+
+
+
+
+
+
+
+
+
+
+    //MISCELLANEOUS CAMERA FEATURES
+    private int xMin, xMax, yMin, yMax;
+
+    public void restrictImageRange(int xMin, int xMax, int yMin, int yMax){
+        this.xMin = xMin;
+        this.xMax = xMax;
+        this.yMin = yMin;
+        this.yMax = yMax;
+    }
+
+
+
+
+
+
+
+
+
+    //HARD FEATURES
+
+
 }
