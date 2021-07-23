@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@TeleOp(name = "Switch Led Test")
+@TeleOp(name = "Switch Led Test Solution")
 public class Lab10Solution_SwitchLedTest extends LinearOpMode {
     SwitchLedStateMachine stateMachine;
 
@@ -19,11 +19,9 @@ public class Lab10Solution_SwitchLedTest extends LinearOpMode {
             stateMachine.run(); //Execute State Machine
             sleep(1000);
         }
-
-        stop();
     }
 
-    private class SwitchLedStateMachine{ //We will create our state machines as seperate classes
+    private class SwitchLedStateMachine{ //We will create our state machines as separate classes
         private DigitalChannel ledGreen, ledRed; //The LED Indicator contains 2 LEDs, a green, and red LED, both of these will be mapped onto 2 different ports, so they must be defined seperately
         private TouchSensor digitalSwitch; //The digital switch being used is a touch sensor
         private boolean state; //Variable to keep track of the state of the touch sensor during the most recent run of the state machine

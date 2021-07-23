@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-@TeleOp(name = "Gyro Test 2")
+@TeleOp(name = "Gyro Test 2 Solution")
 public class Lab12Solution_Gyro2Test extends LinearOpMode {
 
     BNO055IMU imu; //The gyro is a IMU (inertial measurement unit), and the class we can use to interface it is BNO055IMU
@@ -51,7 +51,5 @@ public class Lab12Solution_Gyro2Test extends LinearOpMode {
 
             sleep(50);
         }
-
-        stop();
     }
 }
