@@ -17,7 +17,7 @@ public class Lab11Solution_GyroTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        imu = (BNO055IMU) hardwareMap.get("imu1"); //Hardware map IMU
+        imu = hardwareMap.get(BNO055IMU.class, "imu1"); //Hardware map IMU
 
         BNO055IMU.Parameters params = new BNO055IMU.Parameters(); //The IMU can return data in a variety of ways, the parameters object can be used to change any of the defaults to a specified parameter
         params.angleUnit = BNO055IMU.AngleUnit.DEGREES; //Set angle unit to be in degrees
