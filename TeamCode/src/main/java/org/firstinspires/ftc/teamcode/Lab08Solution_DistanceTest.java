@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "Potentiometer Test")
+@Autonomous(name = "Potentiometer Test Solution")
 public class Lab08Solution_DistanceTest extends LinearOpMode {
 
     DistanceSensor distSensor;

@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp(name = "Switch Test")
-public class Lab05Template_SwitchTest extends LinearOpMode {
+public class Lab05Template_TouchTest extends LinearOpMode {
 
     private TouchSensor digitalSwitch;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        digitalSwitch = hardwareMap.touchSensor.get("testswitch"); //Map the hardware to the object
+        digitalSwitch = hardwareMap.touchSensor.get("testTouch"); // Map the hardware to the object
 
         //YOUR CODE HERE
 

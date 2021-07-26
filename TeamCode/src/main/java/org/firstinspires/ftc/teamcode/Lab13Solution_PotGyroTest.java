@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-@TeleOp(name = "Pot Gyro Test")
+@TeleOp(name = "Pot Gyro Test Solution")
 public class Lab13Solution_PotGyroTest extends LinearOpMode {
 
     BNO055IMU imu;
@@ -53,7 +53,5 @@ public class Lab13Solution_PotGyroTest extends LinearOpMode {
 
             sleep(50);
         }
-
-        stop();
     }
 }

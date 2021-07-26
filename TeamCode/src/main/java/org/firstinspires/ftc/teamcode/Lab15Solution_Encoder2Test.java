@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name = "Encoder Test")
+@Autonomous(name = "Encoder Test 2 Solution")
 public class Lab15Solution_Encoder2Test extends LinearOpMode {
 
     DcMotor motor; //Define DcMotor
@@ -50,7 +50,5 @@ public class Lab15Solution_Encoder2Test extends LinearOpMode {
 
             sleep(50);
         }
-
-        stop();
     }
 }
