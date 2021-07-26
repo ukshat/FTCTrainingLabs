@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Hello World")
+@TeleOp(name = "Hello World Solution")
 public class Lab02Solution_HelloWorld extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

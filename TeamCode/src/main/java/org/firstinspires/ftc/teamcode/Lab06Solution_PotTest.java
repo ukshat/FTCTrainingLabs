@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
-@Autonomous(name = "Potentiometer Test")
+@Autonomous(name = "Potentiometer Test Solution")
 public class Lab06Solution_PotTest extends LinearOpMode {
     private AnalogInput pot; //Define AnalogInput, which we use to read the voltage from the potentiometer
 
