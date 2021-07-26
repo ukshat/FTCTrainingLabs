@@ -22,8 +22,8 @@ import java.util.HashMap;
 public class EasyCVTest1 extends LinearOpMode {
 
     private EasyCV easyCV;
-    private final int CAM_WIDTH = 0;
-    private final int CAM_HEIGHT = 0;
+    private final int CAM_WIDTH = 1280;
+    private final int CAM_HEIGHT = 720;
 
     @Override
     public void runOpMode() throws InterruptedException {
