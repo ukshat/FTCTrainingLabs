@@ -21,9 +21,94 @@ import java.util.HashMap;
 @TeleOp(name = "CV")
 public class EasyCVTest1 extends LinearOpMode {
 
+    private EasyCV easyCV;
+    private final int CAM_WIDTH = 1280;
+    private final int CAM_HEIGHT = 720;
+
     @Override
     public void runOpMode() throws InterruptedException {
+        easyCV = new EasyCV(this, "webcam 1");
 
+        waitForStart();
+
+        easyCV.start(CAM_WIDTH, CAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+
+
+        singleFrameAverageColorTest();
+
+        while(opModeIsActive()) sleep(100);
+
+    }
+
+    private final void println(String str){
+        telemetry.addLine(str);
+        telemetry.update();
+    }
+
+    private final void println(boolean str){
+        telemetry.addLine(String.valueOf(str));
+        telemetry.update();
+    }
+
+    private final void println(int str){
+        telemetry.addLine(String.valueOf(str));
+        telemetry.update();
+    }
+
+    private final void println(Object str){
+        telemetry.addLine(str.toString());
+        telemetry.update();
+    }
+
+    private final void singleFrameAverageColorTest(){
+
+        println(easyCV.hasReceivedCommand("Test Tagline"));
+
+        easyCV.getAverageColor("Test Tagling", EasyCV.Configuration.SYNCHRONOUS_SINGLE_FRAME);
+        println(easyCV.hasReceivedCommand("Test Tagline"));
+
+        int i;
+        for(i = 0; !easyCV.isDataReady("Test Tagline") && i < 500; i++){
+            sleep(20);
+        }
+
+        println(i * 20);
+
+        println(easyCV.removeFromQueue("Test Tagline"));
+    }
+
+    private final void streamAverageColorTest(){
+
+        easyCV.getAverageColor("Test Tagling", EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+
+        int i;
+        for(i = 0; opModeIsActive() && i < 40; i++){
+            println(easyCV.getData("Test Tagline"));
+
+            sleep(500);
+        }
+
+        println(i * 20);
+
+        println(easyCV.removeFromQueue("Test Tagline"));
+    }
+
+    private final void restrictSizeTest(){
+
+        easyCV.getAverageColor("Test Tagling", EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+
+        easyCV.restrictImageRange(0, CAM_WIDTH / 10, 0, CAM_HEIGHT / 10);
+
+        int i;
+        for(i = 0; opModeIsActive() && i < 40; i++){
+            println(easyCV.getData("Test Tagline"));
+
+            sleep(500);
+        }
+
+        println(i * 20);
+
+        println(easyCV.removeFromQueue("Test Tagline"));
     }
 }
 
@@ -41,7 +126,7 @@ final class EasyCV{
             return new Color(H, S, V);
         }
 
-        public static Color fromHSV(double[] HSVVals){
+        private static Color fromHSV(double[] HSVVals){
             if(HSVVals.length != 3)
                 throw new IllegalArgumentException("Array Must contain exactly 3 values for Hue, Saturation, and Value");
             return new Color(HSVVals[0], HSVVals[1], HSVVals[2]);
@@ -75,18 +160,20 @@ final class EasyCV{
             return HSVs;
         }
 
+        @Override
+        public String toString(){
+            return "H: " + HSVs[0] + ", S: " + HSVs[1] + ", V: " + HSVs[2];
+        }
+
     }
     //THE FOLLOWING CODE HANDLES BASIC PIPELINE SETUP
 
     private OpenCvCamera webcam;
     private volatile Pipeline pipeline = new Pipeline();
     private volatile Mat lastMat;
-    private LinearOpMode opMode;
 
     public <O extends LinearOpMode> EasyCV(O opMode, String webCamName){
         queue = new HashMap<>();
-
-        this.opMode = opMode;
 
         initCam(opMode.hardwareMap, webCamName);
     }
@@ -261,11 +348,11 @@ final class EasyCV{
         }
     }
 
-    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, Configuration config){
+    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, EasyCV.Configuration config){
         return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, lowerBound, upperBound), config);
     }
 
-    public boolean getAverageColor(final String tagLine, Configuration config){
+    public boolean getAverageColor(final String tagLine, EasyCV.Configuration config){
         return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine), config);
     }
 
