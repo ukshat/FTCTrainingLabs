@@ -24,6 +24,7 @@ public class EasyCVTest1 extends LinearOpMode {
     private EasyCV easyCV;
     private final int CAM_WIDTH = 1280;
     private final int CAM_HEIGHT = 720;
+    private final String TEST_TAGLINE = "Test Tagline";
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -62,53 +63,47 @@ public class EasyCVTest1 extends LinearOpMode {
 
     private final void singleFrameAverageColorTest(){
 
-        println(easyCV.hasReceivedCommand("Test Tagline"));
+        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
-        easyCV.getAverageColor("Test Tagling", EasyCV.Configuration.SYNCHRONOUS_SINGLE_FRAME);
-        println(easyCV.hasReceivedCommand("Test Tagline"));
+        sleep(1000);
+        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.SYNCHRONOUS_SINGLE_FRAME);
+        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
-        int i;
-        for(i = 0; !easyCV.isDataReady("Test Tagline") && i < 500; i++){
-            sleep(20);
-        }
-
-        println(i * 20);
-
-        println(easyCV.removeFromQueue("Test Tagline"));
+        println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 
     private final void streamAverageColorTest(){
 
-        easyCV.getAverageColor("Test Tagling", EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
 
         int i;
         for(i = 0; opModeIsActive() && i < 40; i++){
-            println(easyCV.getData("Test Tagline"));
+            println(easyCV.getData(TEST_TAGLINE));
 
             sleep(500);
         }
 
         println(i * 20);
 
-        println(easyCV.removeFromQueue("Test Tagline"));
+        println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 
     private final void restrictSizeTest(){
 
-        easyCV.getAverageColor("Test Tagling", EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
 
         easyCV.restrictImageRange(0, CAM_WIDTH / 10, 0, CAM_HEIGHT / 10);
 
         int i;
         for(i = 0; opModeIsActive() && i < 40; i++){
-            println(easyCV.getData("Test Tagline"));
+            println(easyCV.getData(TEST_TAGLINE));
 
             sleep(500);
         }
 
         println(i * 20);
 
-        println(easyCV.removeFromQueue("Test Tagline"));
+        println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 }
 
@@ -391,7 +386,9 @@ final class EasyCV{
 
         @Override
         public void run() {
-            dataLoaded(tagLine, Color.fromHSV(Core.mean(lastMat).val));
+            double[] hsv = Core.mean(lastMat).val;
+
+            dataLoaded(tagLine, Color.fromHSV(hsv[0], hsv[1], hsv[2]));
         }
     }
 
