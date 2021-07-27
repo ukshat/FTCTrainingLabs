@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@TeleOp(name = "Hello World")
+@TeleOp(name = "CV")
 public class EasyCVTest1 extends LinearOpMode {
 
     private EasyCV easyCV;

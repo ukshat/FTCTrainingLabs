@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Motor Test")
+@Autonomous(name = "Motor Test Solution")
 public class Lab03Solution_MotorTest extends LinearOpMode {
     private DcMotor motor; // Define DcMotor object to store data about and control the physical motor
 
