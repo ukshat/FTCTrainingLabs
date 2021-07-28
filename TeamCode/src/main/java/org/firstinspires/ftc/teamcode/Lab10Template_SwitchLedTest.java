@@ -16,9 +16,9 @@ public class Lab10Template_SwitchLedTest extends LinearOpMode {
 
     }
 
-    private class SwitchLedStateMachine{ //We will create our state machines as seperate classes
+    private class SwitchLedStateMachine { //We will create our state machines as separate classes
         private DigitalChannel ledGreen, ledRed; //The LED Indicator contains 2 LEDs, a green, and red LED, both of these will be mapped onto 2 different ports, so they must be defined seperately
-        private TouchSensor digitalSwitch; //The digital switch being used is a touch sensor
+        private TouchSensor touchSensor; //The touch sensor will switch the LED between its states.
 
         //YOUR CLASS METHODS AND VARIABLES FOR THE STATE MACHINE HERE
         //THIS INCLUDES CONSTRUCTOR AND ANY HELPER METHODS TO MAKE THE STATE MACHINE SCALABLE

@@ -11,7 +11,7 @@ public class Lab15Solution_Encoder2Test extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        motor = hardwareMap.dcMotor.get("testMotor"); //hardware map
+        motor = hardwareMap.dcMotor.get("motor"); //hardware map
 
         int start = motor.getCurrentPosition(); //in case for some reason the position does not start at 0, we will keep track of the starting position and print all positions relative to this one
 

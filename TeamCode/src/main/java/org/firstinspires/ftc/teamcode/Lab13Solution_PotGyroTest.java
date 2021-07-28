@@ -17,13 +17,13 @@ public class Lab13Solution_PotGyroTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        imu = (BNO055IMU) hardwareMap.get("imu1"); //Hardware map IMU
+        imu = (BNO055IMU) hardwareMap.get("imu"); //Hardware map IMU
 
         BNO055IMU.Parameters params = new BNO055IMU.Parameters(); //The IMU can return data in a variety of ways, the parameters object can be used to change any of the defaults to a specified parameter
         params.angleUnit = BNO055IMU.AngleUnit.DEGREES; //Set angle unit to be in degrees
         imu.initialize(params); //Assign parameters
 
-        pot = hardwareMap.analogInput.get("testPot"); //Hardware map pot
+        pot = hardwareMap.analogInput.get("pot"); //Hardware map pot
 
         int timeSpentCCW = 0; //This variable will count how long the pot has been near fully CCW
 

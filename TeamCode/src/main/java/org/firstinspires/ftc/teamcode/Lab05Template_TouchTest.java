@@ -11,7 +11,7 @@ public class Lab05Template_TouchTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        digitalSwitch = hardwareMap.touchSensor.get("testTouch"); // Map the hardware to the object
+        digitalSwitch = hardwareMap.touchSensor.get("touch"); // Map the hardware to the object
 
         //YOUR CODE HERE
 

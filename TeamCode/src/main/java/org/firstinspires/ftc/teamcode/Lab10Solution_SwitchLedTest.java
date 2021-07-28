@@ -11,7 +11,7 @@ public class Lab10Solution_SwitchLedTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        stateMachine = new SwitchLedStateMachine("testswitch", "testRedLED", "testGreenLED"); //Initialize state machine
+        stateMachine = new SwitchLedStateMachine("touch", "red", "green"); //Initialize state machine
 
         waitForStart();
 
@@ -23,19 +23,19 @@ public class Lab10Solution_SwitchLedTest extends LinearOpMode {
 
     private class SwitchLedStateMachine{ //We will create our state machines as separate classes
         private DigitalChannel ledGreen, ledRed; //The LED Indicator contains 2 LEDs, a green, and red LED, both of these will be mapped onto 2 different ports, so they must be defined seperately
-        private TouchSensor digitalSwitch; //The digital switch being used is a touch sensor
+        private TouchSensor touchSensor; //The digital switch being used is a touch sensor
         private boolean state; //Variable to keep track of the state of the touch sensor during the most recent run of the state machine
 
         public boolean getCurrentState(){ //Returns the absolute current state of the touch sensor (not the last checked state)
-            return digitalSwitch.isPressed();
+            return touchSensor.isPressed();
         }
 
         public boolean getLastCheckedState(){ //Returns the state of the touch sensor during the last run of the state machine (not necessarily the current state of the touch sensor)
             return state;
         }
 
-        public SwitchLedStateMachine(String switchName, String redLedName, String greenLedName){
-            digitalSwitch = hardwareMap.touchSensor.get(switchName); //Map the hardware to the object
+        public SwitchLedStateMachine(String touchSensorName, String redLedName, String greenLedName){
+            touchSensor = hardwareMap.touchSensor.get(touchSensorName); //Map the hardware to the object
             state = getCurrentState(); //initialize the state variable to something
 
             ledGreen = hardwareMap.digitalChannel.get(greenLedName); //Map the hardware to the object

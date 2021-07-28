@@ -10,7 +10,7 @@ public class Lab06Solution_PotTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        pot = hardwareMap.analogInput.get("testPot"); //Map a configured Analog Device (potentiometer) to an object in Java
+        pot = hardwareMap.analogInput.get("pot"); //Map a configured Analog Device (potentiometer) to an object in Java
         
         waitForStart();
 
@@ -20,7 +20,5 @@ public class Lab06Solution_PotTest extends LinearOpMode {
 
             sleep(50);
         }
-
-        stop();
     }
 }
