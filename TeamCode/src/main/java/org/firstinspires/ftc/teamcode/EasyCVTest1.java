@@ -17,7 +17,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        easyCV = new EasyCV(this, "webcam 1");
+        easyCV = new EasyCV(this, "Webcam 1");
 
         waitForStart();
 
@@ -25,7 +25,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
         sleep(100);
 
-        singleFrameAverageColorTest();
+        streamAverageColorTest();
 
         while(opModeIsActive()) sleep(100);
 
@@ -62,18 +62,34 @@ public class EasyCVTest1 extends LinearOpMode {
         println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 
+    private final void singleFrameAsyncAverageColorTest(){
+
+        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
+
+        sleep(1000);
+        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_SINGLE_FRAME);
+        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
+
+        int i;
+
+        for(i = 0; opModeIsActive() && !easyCV.isDataReady(TEST_TAGLINE); i++){
+            sleep(20);
+        }
+
+        println(i + "    " + easyCV.removeFromQueue(TEST_TAGLINE).toString());
+    }
+
     private final void streamAverageColorTest(){
 
         easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
 
+        sleep(1000);
         int i;
         for(i = 0; opModeIsActive() && i < 40; i++){
             println(easyCV.getData(TEST_TAGLINE));
 
             sleep(500);
         }
-
-        println(i * 20);
 
         println(easyCV.removeFromQueue(TEST_TAGLINE));
     }

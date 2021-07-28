@@ -46,14 +46,16 @@ public class Lab12Solution_Gyro2Test extends LinearOpMode {
             float diff = currentAngle - lastAngle;
 
             if(lastAngle != 0 && currentAngle / lastAngle < 0 && Math.abs(currentAngle) > 90 && Math.abs(lastAngle) > 90)
-                diff = 180 - diff;
+                diff = 0 - diff;
 
             netAngle += diff;
 
             lastAngle = currentAngle; //update last angle
 
-            if(i % 20 == 0) //we do not want to print 20 times a second, so by only printing every 20 iterations, it will only print once a second
+            if(i % 20 == 0) { //we do not want to print 20 times a second, so by only printing every 20 iterations, it will only print once a second
                 telemetry.addData("Angle", netAngle + " Degrees");
+                telemetry.update();
+            }
 
             sleep(50);
         }

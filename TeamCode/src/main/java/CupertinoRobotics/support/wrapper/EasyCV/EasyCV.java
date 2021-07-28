@@ -22,9 +22,12 @@ public final class EasyCV{
     private OpenCvCamera webcam;
     private volatile Pipeline pipeline = new Pipeline();
     private volatile Mat lastMat;
+    private volatile LinearOpMode opMode;
 
     public <O extends LinearOpMode> EasyCV(O opMode, String webCamName){
         queue = new HashMap<>();
+
+        this.opMode = opMode;
 
         initCam(opMode.hardwareMap, webCamName);
     }
@@ -185,12 +188,15 @@ public final class EasyCV{
             switch (config) {
                 case ASYNCHRONOUS_SINGLE_FRAME:
                     (new Thread(code)).start();
+                    break;
 
                 case SYNCHRONOUS_SINGLE_FRAME:
                     (new Thread(code)).run();
+                    break;
 
                 case ASYNCHRONOUS_CONTINUOUS_STREAM:
                     streams.add(code);
+                    break;
             }
 
             return true;
@@ -242,10 +248,16 @@ public final class EasyCV{
 
         @Override
         public void run() {
+
             double[] hsv = Core.mean(lastMat).val;
 
             dataLoaded(tagLine, Color.fromHSV(hsv[0], hsv[1], hsv[2]));
         }
+    }
+
+    private void println(String str){
+        opMode.telemetry.addLine(str);
+        opMode.telemetry.update();
     }
 
     public enum Configuration{
