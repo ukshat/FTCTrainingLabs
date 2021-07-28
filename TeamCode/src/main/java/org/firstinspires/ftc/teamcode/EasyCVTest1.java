@@ -23,6 +23,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
         easyCV.start(CAM_WIDTH, CAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
 
+        sleep(100);
 
         singleFrameAverageColorTest();
 
