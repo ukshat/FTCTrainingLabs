@@ -43,7 +43,13 @@ public class Lab12Solution_Gyro2Test extends LinearOpMode {
         //The method I have chosen is mathematically elegant and retains very high precision, consistency, and extremely minimal calculations and code, but is somewhat more complex than other methods
         for(int i = 1; opModeIsActive(); i++){ //loop while the opmode has not ended, while simultaneously counting the number of iterations that have passed
             currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle; //update current angle
-            netAngle += (180 - ((lastAngle - currentAngle + 180) % 360)); //calculate the minimum angular distance between the current position and the last position regardless of a transition from an angle like 179 to -169, in such a way that adding it to the net angle will increment it in the way specified in the instructions
+            float diff = currentAngle - lastAngle;
+
+            if(lastAngle != 0 && currentAngle / lastAngle < 0 && Math.abs(currentAngle) > 90 && Math.abs(lastAngle) > 90)
+                diff = 180 - diff;
+
+            netAngle += diff;
+
             lastAngle = currentAngle; //update last angle
 
             if(i % 20 == 0) //we do not want to print 20 times a second, so by only printing every 20 iterations, it will only print once a second
