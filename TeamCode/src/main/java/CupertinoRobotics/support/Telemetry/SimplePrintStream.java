@@ -2,20 +2,31 @@ package CupertinoRobotics.support.Telemetry;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public final class PrintStream {
+public final class SimplePrintStream {
     private volatile String queue = "";
     private final Telemetry telemetry;
     private volatile PrintMode mode;
 
-    public PrintStream(Telemetry telemetry, PrintMode mode) {
+    public SimplePrintStream(Telemetry telemetry, PrintMode mode) {
         this.telemetry = telemetry;
         this.mode = mode;
     }
 
-    public PrintStream(Telemetry telemetry) {
+    public SimplePrintStream(Telemetry telemetry) {
         this.telemetry = telemetry;
         this.mode = PrintMode.REPLACE;
     }
+
+    public final void speak(String  data){ telemetry.speak(data); }
+    public final void speak(Object  data){ telemetry.speak(data.toString()); }
+    public final void speak(int     data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(double  data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(float   data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(long    data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(short   data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(byte    data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(char    data){ telemetry.speak(String.valueOf(data)); }
+    public final void speak(boolean data){ telemetry.speak(String.valueOf(data)); }
 
     public final void printData(String caption, int     data){ println(caption + " : " + String.valueOf(data));}
     public final void printData(String caption, double  data){ println(caption + " : " + String.valueOf(data));}
@@ -26,6 +37,7 @@ public final class PrintStream {
     public final void printData(String caption, char    data){ println(caption + " : " + String.valueOf(data));}
     public final void printData(String caption, boolean data){ println(caption + " : " + String.valueOf(data));}
     public final void printData(String caption, Object  data){ println(caption + " : " + data.toString());}
+    public final void printData(String caption, String  data){ println(caption + " : " + data);}
     
     public final void println(int     data){ println(String.valueOf(data)); }
     public final void print  (int     data){ print  (String.valueOf(data)); }
@@ -51,23 +63,15 @@ public final class PrintStream {
     public final void println(char    data){ println(String.valueOf(data)); }
     public final void print  (char    data){ print  (String.valueOf(data)); }
 
-    public final void println(Object data){ println(String.valueOf(data.toString())); }
-    public final void print  (Object data){ print  (String.valueOf(data.toString())); }
+    public final void println(Object  data){ println(String.valueOf(data.toString())); }
+    public final void print  (Object  data){ print  (String.valueOf(data.toString())); }
 
-    public final void println(String str){
-       if(mode == PrintMode.REPLACE)
-           queue = str + "\n";
-       else
-           queue += str + "\n";
-
-       updateTelemetry();
-    }
-
-    public final void print(String str){
+    public final void println(String  data){ print(data + "\n"); }
+    public final void print  (String  data){
         if(mode == PrintMode.REPLACE)
-            queue = str ;
+            queue = data ;
         else
-            queue += str;
+            queue += data;
 
         updateTelemetry();
     }
@@ -77,6 +81,7 @@ public final class PrintStream {
     }
 
     private final void updateTelemetry(){
+        telemetry.clearAll();
         telemetry.addLine(queue);
         telemetry.update();
     }
