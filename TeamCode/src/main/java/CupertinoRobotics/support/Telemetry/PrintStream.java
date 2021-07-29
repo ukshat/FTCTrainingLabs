@@ -3,9 +3,9 @@ package CupertinoRobotics.support.Telemetry;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public final class PrintStream {
-    private String queue = "";
+    private volatile String queue = "";
     private final Telemetry telemetry;
-    private PrintMode mode;
+    private volatile PrintMode mode;
 
     public PrintStream(Telemetry telemetry, PrintMode mode) {
         this.telemetry = telemetry;
