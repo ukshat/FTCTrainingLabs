@@ -11,7 +11,6 @@ public class Lab04Template_ServoTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         servo = hardwareMap.servo.get("testServo"); //Map a hardware-configured Servo motor named "testServo" to an object in Java
-        servo.setDirection(Servo.Direction.FORWARD); //Ensure the servo object defaults to the same direction every run
 
         //YOUR CODE HERE
 

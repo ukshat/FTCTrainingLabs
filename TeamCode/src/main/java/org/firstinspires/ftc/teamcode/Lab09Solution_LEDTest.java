@@ -12,9 +12,9 @@ public class Lab09Solution_LEDTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        greenLed = hardwareMap.digitalChannel.get("testGreenLED"); // Map the hardware to the object
+        greenLed = hardwareMap.digitalChannel.get("green"); // Map the hardware to the object
         greenLed.setMode(DigitalChannel.Mode.OUTPUT); // The LED objects are output devices, which output a current to run the LEDs, so we must define this in the code
-        redLed = hardwareMap.digitalChannel.get("testRedLED"); // Map the hardware to the object
+        redLed = hardwareMap.digitalChannel.get("red"); // Map the hardware to the object
         redLed.setMode(DigitalChannel.Mode.OUTPUT);
 
         waitForStart();

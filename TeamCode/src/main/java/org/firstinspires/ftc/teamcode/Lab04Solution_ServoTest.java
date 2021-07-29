@@ -10,10 +10,9 @@ public class Lab04Solution_ServoTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        servo = hardwareMap.servo.get("testServo"); //Map a configured Servo motor to an object in Java
-        servo.setDirection(Servo.Direction.FORWARD); //Ensure the servo object defaults to the same direction every time
+        servo = hardwareMap.servo.get("servo"); //Map a configured Servo motor to an object in Java
 
-        // The servo can turn from 0 to 270°. To turn 135°, set the position to 135/270, which is 0.5.
+        // A servo can turn from 0 to 270°. To turn 135°, set the position to 135/270, which is 0.5.
         servo.setPosition(0.5);
 
         waitForStart();

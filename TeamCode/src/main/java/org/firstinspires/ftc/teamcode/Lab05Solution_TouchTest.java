@@ -12,7 +12,7 @@ public class Lab05Solution_TouchTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        touchSensor = hardwareMap.touchSensor.get("testTouch"); // Map the hardware device to the object
+        touchSensor = hardwareMap.touchSensor.get("touch"); // Map the hardware device to the object
 
         waitForStart();
 

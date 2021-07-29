@@ -13,7 +13,7 @@ public class Lab08Template_DistanceTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        distSensor = hardwareMap.get(DistanceSensor.class, "Distance"); //This form of hardware mapping is slightly different than previous labs, so it is provided
+        distSensor = hardwareMap.get(DistanceSensor.class, "distance"); //This form of hardware mapping is slightly different than previous labs, so it is provided
 
         //YOUR CODE HERE
 

@@ -12,11 +12,11 @@ public class Lab07Solution_ColorTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        colorSensor = hardwareMap.colorSensor.get("testColor"); // hardware map
+        colorSensor = hardwareMap.colorSensor.get("color"); // hardware map
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             // We will print the format of the data in the caption, and the data in the value.
             telemetry.addData("[r],[g],[b],[a]", colorSensor.red() + ", " + colorSensor.green() + ", " + colorSensor.blue() + ", " + colorSensor.alpha());
 

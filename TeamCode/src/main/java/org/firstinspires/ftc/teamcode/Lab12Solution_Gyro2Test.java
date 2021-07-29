@@ -17,7 +17,7 @@ public class Lab12Solution_Gyro2Test extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        imu = (BNO055IMU) hardwareMap.get("imu1"); //Hardware map IMU
+        imu = (BNO055IMU) hardwareMap.get("imu"); //Hardware map IMU
 
         BNO055IMU.Parameters params = new BNO055IMU.Parameters(); //The IMU can return data in a variety of ways, the parameters object can be used to change any of the defaults to a specified parameter
         params.angleUnit = BNO055IMU.AngleUnit.DEGREES; //Set angle unit to be in degrees
@@ -39,23 +39,20 @@ public class Lab12Solution_Gyro2Test extends LinearOpMode {
 
         waitForStart();
 
-        //There are many ways to achieve the desired behaviour where a 270 degree rotation does not return -90, but rather 270.
-        //The method I have chosen is mathematically elegant and retains very high precision, consistency, and extremely minimal calculations and code, but is somewhat more complex than other methods
-        for(int i = 1; opModeIsActive(); i++){ //loop while the opmode has not ended, while simultaneously counting the number of iterations that have passed
+        while (opModeIsActive()) {
             currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle; //update current angle
             float diff = currentAngle - lastAngle;
 
-            if(lastAngle != 0 && currentAngle / lastAngle < 0 && Math.abs(currentAngle) > 90 && Math.abs(lastAngle) > 90)
-                diff = 0 - diff;
-
+            if(lastAngle != 0 && currentAngle / lastAngle < 0 && Math.abs(currentAngle) > 90 && Math.abs(lastAngle) > 90) {
+                if (lastAngle < 0) diff = 180 - diff;
+                else diff = 180 + diff;
+            }
             netAngle += diff;
 
             lastAngle = currentAngle; //update last angle
 
-            if(i % 20 == 0) { //we do not want to print 20 times a second, so by only printing every 20 iterations, it will only print once a second
-                telemetry.addData("Angle", netAngle + " Degrees");
-                telemetry.update();
-            }
+            telemetry.addData("Angle", netAngle + " Degrees");
+            telemetry.update();
 
             sleep(50);
         }

@@ -13,7 +13,7 @@ public class Lab03Solution_MotorTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        motor = hardwareMap.dcMotor.get("testMotor"); // Map a configured DC motor to an object in Java
+        motor = hardwareMap.dcMotor.get("motor"); // Map a configured DC motor to an object in Java
         waitForStart(); // Self-explanatory
 
         for (int i = 0; i < 6; i++) { // repeat x6
