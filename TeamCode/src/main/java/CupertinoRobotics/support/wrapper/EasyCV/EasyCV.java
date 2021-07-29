@@ -33,10 +33,6 @@ public final class EasyCV{
     }
 
     public void start(int w, int h, OpenCvCameraRotation r){
-        xMin = 0;
-        yMin = 0;
-        xMax = w;
-        yMax = h;
         webcam.startStreaming(w, h, r);
     }
 
@@ -89,7 +85,7 @@ public final class EasyCV{
 
         @Override
         public Mat processFrame(Mat input) {
-            lastMat = input.submat(yMin, yMax, xMin, xMax);
+            lastMat = input;
 
             try {
                 if(streamingComputations)
@@ -123,17 +119,6 @@ public final class EasyCV{
     public boolean isDataReady(String tagLine){
         return queue.containsKey(tagLine) && queue.get(tagLine) != null;
     }
-
-//    public boolean waitForData(String tagLine){
-//        while(opMode.opModeIsActive() && !isDataReady(tagLine))
-//            try {
-//                Thread.sleep(20);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
-//
-//        return true;
-//    }
 
     public Object removeFromQueue(String tagLine){
         removeFromStreams(tagLine);
@@ -205,53 +190,84 @@ public final class EasyCV{
         }
     }
 
-    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, EasyCV.Configuration config){
+    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, Configuration config){
         return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, lowerBound, upperBound), config);
     }
 
-    public boolean getAverageColor(final String tagLine, EasyCV.Configuration config){
+    public boolean getAverageColor(final String tagLine, Configuration config){
         return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine), config);
     }
 
-    private abstract class Computation implements Runnable{
-        public final String tagLine;
+    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, Configuration config, Filters params){
+        return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, params, lowerBound, upperBound), config);
+    }
 
-        public Computation(String tagLine){
+    public boolean getAverageColor(final String tagLine, Configuration config, Filters params){
+        return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine, params), config);
+    }
+
+    private abstract class Computation implements Runnable{
+        private final String tagLine;
+        private final Filters params;
+
+        public Computation(String tagLine, Filters params){
             this.tagLine = tagLine;
+            this.params = params;
         }
+
+        @Override
+        public void run(){
+            Mat inp = params.imgBound == null ? lastMat.clone() : lastMat.submat(params.imgBound.yMin, params.imgBound.yMax, params.imgBound.xMin, params.imgBound.xMax);
+            for(CustomFilter filter : params.filters)
+                inp = filter.filter(inp);
+
+            dataLoaded(tagLine, compute(inp));
+        }
+
+        protected abstract Object compute(Mat input);
     }
 
     private class PercentOfColorComputation extends Computation {
         private final Color lowerBound, upperBound;
 
         public PercentOfColorComputation(String tagLine, Color lowerBound, Color upperBound){
-            super(tagLine);
+            super(tagLine, new Filters());
+            this.lowerBound = lowerBound;
+            this.upperBound = upperBound;
+        }
+
+        public PercentOfColorComputation(String tagLine, Filters params, Color lowerBound, Color upperBound){
+            super(tagLine, params);
             this.lowerBound = lowerBound;
             this.upperBound = upperBound;
         }
 
         @Override
-        public void run() {
+        protected Object compute(Mat input) {
             Mat copy = new Mat();
 
-            Imgproc.cvtColor(lastMat, copy, Imgproc.COLOR_RGB2HSV_FULL);
-            Core.inRange(copy, new Scalar(lowerBound.getHSV()), new Scalar(upperBound.getHSV()), lastMat);
+            Imgproc.cvtColor(input, copy, Imgproc.COLOR_RGB2HSV_FULL);
+            Core.inRange(copy, new Scalar(lowerBound.getHSV()), new Scalar(upperBound.getHSV()), input);
 
-            dataLoaded(tagLine, Core.sumElems(lastMat).val[0] / (lastMat.width() * lastMat.height()) / 255);
+            return Core.sumElems(input).val[0] / (input.width() * input.height()) / 255;
         }
     }
 
     private class AverageColorComputation extends Computation{
         public AverageColorComputation(String tagLine) {
-            super(tagLine);
+            super(tagLine, new Filters());
+        }
+
+        public AverageColorComputation(String tagLine, Filters params) {
+            super(tagLine, params);
         }
 
         @Override
-        public void run() {
+        protected Object compute(Mat input) {
 
-            double[] hsv = Core.mean(lastMat).val;
+            double[] hsv = Core.mean(input).val;
 
-            dataLoaded(tagLine, Color.fromHSV(hsv[0], hsv[1], hsv[2]));
+            return Color.fromHSV(hsv[0], hsv[1], hsv[2]);
         }
     }
 
@@ -260,30 +276,8 @@ public final class EasyCV{
         opMode.telemetry.update();
     }
 
-    public enum Configuration{
-        ASYNCHRONOUS_SINGLE_FRAME,
-        SYNCHRONOUS_SINGLE_FRAME,
-        ASYNCHRONOUS_CONTINUOUS_STREAM
-    }
 
 
-
-
-
-
-
-
-
-
-    //MISCELLANEOUS CAMERA FEATURES
-    private int xMin, xMax, yMin, yMax;
-
-    public void restrictImageRange(int xMin, int xMax, int yMin, int yMax){
-        this.xMin = xMin;
-        this.xMax = xMax;
-        this.yMin = yMin;
-        this.yMax = yMax;
-    }
 
 
 

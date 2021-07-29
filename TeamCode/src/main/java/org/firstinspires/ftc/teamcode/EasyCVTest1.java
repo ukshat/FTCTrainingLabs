@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import CupertinoRobotics.support.wrapper.EasyCV.Configuration;
 import CupertinoRobotics.support.wrapper.EasyCV.EasyCV;
 
 @TeleOp(name = "CV")
@@ -56,7 +57,7 @@ public class EasyCVTest1 extends LinearOpMode {
         println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
         sleep(1000);
-        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.SYNCHRONOUS_SINGLE_FRAME);
+        easyCV.getAverageColor(TEST_TAGLINE, Configuration.SYNCHRONOUS_SINGLE_FRAME);
         println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
         println(easyCV.removeFromQueue(TEST_TAGLINE));
@@ -67,7 +68,7 @@ public class EasyCVTest1 extends LinearOpMode {
         println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
         sleep(1000);
-        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_SINGLE_FRAME);
+        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_SINGLE_FRAME);
         println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
         int i;
@@ -81,7 +82,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
     private final void streamAverageColorTest(){
 
-        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
 
         sleep(1000);
         int i;
@@ -96,7 +97,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
     private final void restrictSizeTest(){
 
-        easyCV.getAverageColor(TEST_TAGLINE, EasyCV.Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
 
         easyCV.restrictImageRange(0, CAM_WIDTH / 10, 0, CAM_HEIGHT / 10);
 
