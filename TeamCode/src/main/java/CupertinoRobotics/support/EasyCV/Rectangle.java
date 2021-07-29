@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.EasyCV;
+package CupertinoRobotics.support.EasyCV;
 
 public final class Rectangle {
     public final int xMin, yMin, xMax, yMax;

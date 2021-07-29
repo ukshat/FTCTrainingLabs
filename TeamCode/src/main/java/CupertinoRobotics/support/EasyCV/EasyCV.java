@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.EasyCV;
+package CupertinoRobotics.support.EasyCV;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;

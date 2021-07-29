@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.EasyCV;
+package CupertinoRobotics.support.EasyCV;
 
 import org.opencv.core.Mat;
 

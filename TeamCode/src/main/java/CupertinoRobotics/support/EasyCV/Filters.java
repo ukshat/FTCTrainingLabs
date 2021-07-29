@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.EasyCV;
+package CupertinoRobotics.support.EasyCV;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.DigitalChannelLED;
+package CupertinoRobotics.support.Hardware.DigitalChannelLED;
 
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareDevice;

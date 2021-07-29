@@ -9,11 +9,11 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import CupertinoRobotics.support.wrapper.EasyCV.Configuration;
-import CupertinoRobotics.support.wrapper.EasyCV.CustomFilter;
-import CupertinoRobotics.support.wrapper.EasyCV.EasyCV;
-import CupertinoRobotics.support.wrapper.EasyCV.Filters;
-import CupertinoRobotics.support.wrapper.EasyCV.Rectangle;
+import CupertinoRobotics.support.EasyCV.Configuration;
+import CupertinoRobotics.support.EasyCV.CustomFilter;
+import CupertinoRobotics.support.EasyCV.EasyCV;
+import CupertinoRobotics.support.EasyCV.Filters;
+import CupertinoRobotics.support.EasyCV.Rectangle;
 
 @TeleOp(name = "CV")
 public class EasyCVTest1 extends LinearOpMode {

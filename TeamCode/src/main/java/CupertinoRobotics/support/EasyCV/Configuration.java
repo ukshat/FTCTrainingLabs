@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.EasyCV;
+package CupertinoRobotics.support.EasyCV;
 
 public enum Configuration{
     ASYNCHRONOUS_SINGLE_FRAME,

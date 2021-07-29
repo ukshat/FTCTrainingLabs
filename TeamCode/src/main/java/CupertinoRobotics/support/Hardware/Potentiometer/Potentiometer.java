@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.wrapper.Potentiometer;
+package CupertinoRobotics.support.Hardware.Potentiometer;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
