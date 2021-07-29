@@ -12,7 +12,7 @@ public class Filters {
         imgBound = r;
     }
 
-    public void addFilters(CustomFilter... f){
+    public void addCustomFilters(CustomFilter... f){
         filters.addAll(Arrays.asList(f));
     }
 }

@@ -3,10 +3,17 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import CupertinoRobotics.support.wrapper.EasyCV.Configuration;
+import CupertinoRobotics.support.wrapper.EasyCV.CustomFilter;
 import CupertinoRobotics.support.wrapper.EasyCV.EasyCV;
+import CupertinoRobotics.support.wrapper.EasyCV.Filters;
+import CupertinoRobotics.support.wrapper.EasyCV.Rectangle;
 
 @TeleOp(name = "CV")
 public class EasyCVTest1 extends LinearOpMode {
@@ -26,7 +33,7 @@ public class EasyCVTest1 extends LinearOpMode {
 
         sleep(100);
 
-        streamAverageColorTest();
+        synchronousTest();
 
         while(opModeIsActive()) sleep(100);
 
@@ -52,7 +59,7 @@ public class EasyCVTest1 extends LinearOpMode {
         telemetry.update();
     }
 
-    private final void singleFrameAverageColorTest(){
+    private final void synchronousTest(){
 
         println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
@@ -63,7 +70,7 @@ public class EasyCVTest1 extends LinearOpMode {
         println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 
-    private final void singleFrameAsyncAverageColorTest(){
+    private final void asyncTest(){
 
         println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
@@ -80,7 +87,7 @@ public class EasyCVTest1 extends LinearOpMode {
         println(i + "    " + easyCV.removeFromQueue(TEST_TAGLINE).toString());
     }
 
-    private final void streamAverageColorTest(){
+    private final void streamTest(){
 
         easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
 
@@ -97,9 +104,10 @@ public class EasyCVTest1 extends LinearOpMode {
 
     private final void restrictSizeTest(){
 
-        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+        Filters filters = new Filters();
+        filters.setImageBound(new Rectangle(0, 0, CAM_WIDTH / 2, CAM_HEIGHT));
 
-        easyCV.restrictImageRange(0, CAM_WIDTH / 10, 0, CAM_HEIGHT / 10);
+        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM, filters);
 
         int i;
         for(i = 0; opModeIsActive() && i < 40; i++){
@@ -109,6 +117,26 @@ public class EasyCVTest1 extends LinearOpMode {
         }
 
         println(i * 20);
+
+        println(easyCV.removeFromQueue(TEST_TAGLINE));
+    }
+
+    private final void customFilterTest(){
+
+        Filters filters = new Filters();
+        filters.addCustomFilters(new CustomFilter(){
+            @Override
+            public Mat filter(Mat input) {
+                Mat ret = input.clone();
+                Imgproc.cvtColor(input, ret, Imgproc.COLOR_RGB2HSV_FULL);
+                Core.inRange(input, new Scalar(0, 0, 0), new Scalar(255, 255, 255), ret);
+                return input;
+            }
+        });
+
+        easyCV.getAverageColor(TEST_TAGLINE, Configuration.SYNCHRONOUS_SINGLE_FRAME, filters);
+
+        println(easyCV.getData(TEST_TAGLINE));
 
         println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
