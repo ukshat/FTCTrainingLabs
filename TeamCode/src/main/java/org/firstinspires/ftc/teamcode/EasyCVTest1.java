@@ -129,8 +129,8 @@ public class EasyCVTest1 extends LinearOpMode {
             public Mat filter(Mat input) {
                 Mat ret = input.clone();
                 Imgproc.cvtColor(input, ret, Imgproc.COLOR_RGB2HSV_FULL);
-                Core.inRange(input, new Scalar(0, 0, 0), new Scalar(255, 255, 255), ret);
-                return input;
+                Core.inRange(ret, new Scalar(0, 0, 0), new Scalar(255, 255, 255), ret);
+                return ret;
             }
         });
 
