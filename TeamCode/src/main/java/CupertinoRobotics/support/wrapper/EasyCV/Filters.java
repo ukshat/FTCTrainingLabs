@@ -3,7 +3,7 @@ package CupertinoRobotics.support.wrapper.EasyCV;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Filters {
+public final class Filters {
     Rectangle imgBound = null;
 
     final ArrayList<CustomFilter> filters = new ArrayList<>();

@@ -94,7 +94,7 @@ public final class EasyCV{
 
                 Thread.sleep(20);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                println(e.getMessage());
             }
 
             return input;
