@@ -79,6 +79,9 @@ public final class SimplePrintStream {
     public final void setPrintMode(PrintMode mode){
         this.mode = mode;
     }
+    public final PrintMode getPrintMode(){
+        return mode;
+    }
 
     private final void updateTelemetry(){
         telemetry.clearAll();

@@ -14,6 +14,7 @@ public class Lab02Solution_HelloWorld extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addLine("Hello World"); // Add line to telemetry queue
             telemetry.update(); // Update telemetry queue, prints "Hello World" to the driver station
+            sleep(1000);
         }
 
     }
