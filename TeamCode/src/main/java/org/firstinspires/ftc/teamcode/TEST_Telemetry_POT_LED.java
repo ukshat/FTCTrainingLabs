@@ -9,7 +9,7 @@ import CupertinoRobotics.support.Hardware.Potentiometer.Potentiometer;
 import CupertinoRobotics.support.Telemetry.PrintMode;
 import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 
-@TeleOp(name = "Hello World Solution")
+@TeleOp(name = "telem pot test")
 public class TEST_Telemetry_POT_LED extends LinearOpMode {
     SimplePrintStream telem;
     Potentiometer pot;
@@ -20,6 +20,8 @@ public class TEST_Telemetry_POT_LED extends LinearOpMode {
         telem = new SimplePrintStream(telemetry);
         pot = new Potentiometer(hardwareMap, "pot");
         led = new DigitalChannelLED(hardwareMap, "rLED", "gLED");
+
+        waitForStart();
 
         for(int i = 0; opModeIsActive(); i++){
             if(i % 40 == 0)

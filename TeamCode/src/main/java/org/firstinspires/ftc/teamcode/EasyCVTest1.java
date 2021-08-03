@@ -31,9 +31,9 @@ public class EasyCVTest1 extends LinearOpMode {
 
         easyCV.start(CAM_WIDTH, CAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
 
-        sleep(100);
+        sleep(2000);
 
-        synchronousTest();
+        customFilterTest();
 
         while(opModeIsActive()) sleep(100);
 
@@ -55,7 +55,7 @@ public class EasyCVTest1 extends LinearOpMode {
     }
 
     private final void println(Object str){
-        telemetry.addLine(str.toString());
+        telemetry.addLine(str != null ? str.toString() : "null");
         telemetry.update();
     }
 
@@ -94,7 +94,7 @@ public class EasyCVTest1 extends LinearOpMode {
         sleep(1000);
         int i;
         for(i = 0; opModeIsActive() && i < 40; i++){
-            println(easyCV.getData(TEST_TAGLINE));
+            println(easyCV.queue.toString());
 
             sleep(500);
         }
@@ -106,12 +106,19 @@ public class EasyCVTest1 extends LinearOpMode {
 
         Filters filters = new Filters();
         filters.setImageBound(new Rectangle(0, 0, CAM_WIDTH / 2, CAM_HEIGHT));
+        Filters filters2 = new Filters();
+        filters2.setImageBound(new Rectangle(CAM_WIDTH / 2, 0, CAM_WIDTH, CAM_HEIGHT));
+
+        easyCV.getAverageColor(TEST_TAGLINE + " 2", Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
+        easyCV.getAverageColor(TEST_TAGLINE + " 3", Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM, filters2);
 
         easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM, filters);
 
         int i;
         for(i = 0; opModeIsActive() && i < 40; i++){
-            println(easyCV.getData(TEST_TAGLINE));
+            println("L" + easyCV.getData(TEST_TAGLINE)
+            + "\nA" + easyCV.getData(TEST_TAGLINE + " 2")
+             + "\nR" + easyCV.getData(TEST_TAGLINE + " 3"));
 
             sleep(500);
         }
@@ -127,16 +134,14 @@ public class EasyCVTest1 extends LinearOpMode {
         filters.addCustomFilters(new CustomFilter(){
             @Override
             public Mat filter(Mat input) {
-                Mat ret = input.clone();
+                Mat ret = new Mat();
                 Imgproc.cvtColor(input, ret, Imgproc.COLOR_RGB2HSV_FULL);
-                Core.inRange(ret, new Scalar(0, 0, 0), new Scalar(255, 255, 255), ret);
+                Core.inRange(ret, new Scalar(100, 1, 1), new Scalar(255, 255, 255), ret);
                 return ret;
             }
         });
 
         easyCV.getAverageColor(TEST_TAGLINE, Configuration.SYNCHRONOUS_SINGLE_FRAME, filters);
-
-        println(easyCV.getData(TEST_TAGLINE));
 
         println(easyCV.removeFromQueue(TEST_TAGLINE));
     }

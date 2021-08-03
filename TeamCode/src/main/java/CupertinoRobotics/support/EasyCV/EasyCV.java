@@ -218,10 +218,13 @@ public final class EasyCV{
         @Override
         public void run(){
             Mat inp = params.imgBound == null ? lastMat.clone() : lastMat.submat(params.imgBound.yMin, params.imgBound.yMax, params.imgBound.xMin, params.imgBound.xMax);
-            for(CustomFilter filter : params.filters)
+
+            for (CustomFilter filter : params.filters)
                 inp = filter.filter(inp);
 
             dataLoaded(tagLine, compute(inp));
+
+            inp.release();
         }
 
         protected abstract Object compute(Mat input);

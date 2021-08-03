@@ -17,14 +17,14 @@ public class Lab10Solution_SwitchLedTest extends LinearOpMode {
 
         while(opModeIsActive()){ //Loop until termination
             stateMachine.run(); //Execute State Machine
-            sleep(1000);
+            sleep(100);
         }
     }
 
     private class SwitchLedStateMachine{ //We will create our state machines as separate classes
         private DigitalChannel ledGreen, ledRed; //The LED Indicator contains 2 LEDs, a green, and red LED, both of these will be mapped onto 2 different ports, so they must be defined seperately
         private TouchSensor touchSensor; //The digital switch being used is a touch sensor
-        private boolean state; //Variable to keep track of the state of the touch sensor during the most recent run of the state machine
+        private boolean state, rState, gState; //Variable to keep track of the state of the touch sensor during the most recent run of the state machine
 
         public boolean getCurrentState(){ //Returns the absolute current state of the touch sensor (not the last checked state)
             return touchSensor.isPressed();
@@ -43,15 +43,19 @@ public class Lab10Solution_SwitchLedTest extends LinearOpMode {
             ledRed = hardwareMap.digitalChannel.get(redLedName); //Map the hardware to the object
             ledRed.setMode(DigitalChannel.Mode.OUTPUT);
 
+            gState = true;
+            rState = false;
             ledGreen.setState(true); //set one of the LEDs to be on (the selection of which led to be on was completely arbitrary)
         }
 
         public void run(){ //What to execute every 1 second
-            if(getCurrentState() != getLastCheckedState()){ //if the state of the switch changed...
-                state = getCurrentState(); //update state
-                ledGreen.setState(!ledGreen.getState()); //switch the state of each LED, effectively toggles between on and off for both, such that one is on and one is off
-                ledRed.setState(!ledRed.getState());
+            if(getCurrentState() && !getLastCheckedState()){ //if the switch is on and was previously off...
+                ledGreen.setState(!gState); //switch the state of each LED, effectively toggles between on and off for both, such that one is on and one is off
+                ledRed.setState(!rState);
+                gState = !gState;
+                rState = !rState;
             }
+            state = getCurrentState();//update state
         }
     }
 }
