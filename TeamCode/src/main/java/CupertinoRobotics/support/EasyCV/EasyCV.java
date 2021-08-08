@@ -5,8 +5,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -15,6 +18,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import CupertinoRobotics.support.EasyCV.ContourBlobDetection.GrayScaleType;
 
 public final class EasyCV{
     //THE FOLLOWING CODE HANDLES BASIC PIPELINE SETUP
@@ -94,7 +99,8 @@ public final class EasyCV{
 
                 Thread.sleep(20);
             } catch (InterruptedException e) {
-                println(e.getMessage());
+                opMode.telemetry.addLine(e.getMessage());
+                opMode.telemetry.update();
             }
 
             return input;
@@ -190,20 +196,52 @@ public final class EasyCV{
         }
     }
 
-    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, Configuration config){
-        return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, lowerBound, upperBound), config);
+    public boolean getPercentOfColor(final String tagLine, Configuration config, final Color lowerBound, final Color upperBound){
+        return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, new Filters(), lowerBound, upperBound), config);
+    }
+
+    public boolean getPercentOfColor(final String tagLine, Configuration config, final Color lowerBound, final Color upperBound, Filters params){
+        return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, params, lowerBound, upperBound), config);
     }
 
     public boolean getAverageColor(final String tagLine, Configuration config){
-        return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine), config);
-    }
-
-    public boolean getPercentOfColor(final String tagLine, final Color lowerBound, final Color upperBound, Configuration config, Filters params){
-        return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, params, lowerBound, upperBound), config);
+        return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine, new Filters()), config);
     }
 
     public boolean getAverageColor(final String tagLine, Configuration config, Filters params){
         return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine, params), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, 2, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, blur, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, blur, invert, GrayScaleType.DEFAULT_GRAYSCALE), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, GrayScaleType type){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, blur, invert, type), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, Filters params){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, 2, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, Filters params){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, blur, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, Filters params){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, blur, invert, GrayScaleType.DEFAULT_GRAYSCALE), config);
+    }
+
+    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, GrayScaleType type, Filters params){
+        return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, blur, invert, type), config);
     }
 
     private abstract class Computation implements Runnable{
@@ -233,12 +271,6 @@ public final class EasyCV{
     private class PercentOfColorComputation extends Computation {
         private final Color lowerBound, upperBound;
 
-        public PercentOfColorComputation(String tagLine, Color lowerBound, Color upperBound){
-            super(tagLine, new Filters());
-            this.lowerBound = lowerBound;
-            this.upperBound = upperBound;
-        }
-
         public PercentOfColorComputation(String tagLine, Filters params, Color lowerBound, Color upperBound){
             super(tagLine, params);
             this.lowerBound = lowerBound;
@@ -257,9 +289,6 @@ public final class EasyCV{
     }
 
     private class AverageColorComputation extends Computation{
-        public AverageColorComputation(String tagLine) {
-            super(tagLine, new Filters());
-        }
 
         public AverageColorComputation(String tagLine, Filters params) {
             super(tagLine, params);
@@ -274,23 +303,85 @@ public final class EasyCV{
         }
     }
 
-    private void println(String str){
-        opMode.telemetry.addLine(str);
-        opMode.telemetry.update();
+    private class BlobDetectionByContourCalculation extends Computation{
+        private final double saturation, scale;
+        private final int blur;
+        private final boolean invert;
+        private final GrayScaleType type;
+
+        public BlobDetectionByContourCalculation(String tagLine, Filters params, double saturation, double scale, int blur, boolean invert, GrayScaleType type) {
+            super(tagLine, params);
+            this.saturation = saturation;
+            this.scale = scale;
+            this.blur = blur;
+            this.invert = invert;
+            this.type = type;
+        }
+
+        @Override
+        protected Rectangle compute(Mat input) {
+            if(invert)
+                Core.bitwise_not(input, input);
+
+            input.convertTo(input, CvType.CV_8UC1, scale, saturation);
+
+            Imgproc.blur(input, input, new Size(blur, blur));
+
+            int typeOrdinal = type.ordinal();
+
+            if(type != GrayScaleType.DEFAULT_GRAYSCALE)
+                for(int r = 0; r < input.rows(); r++) {
+                    for(int c = 0; c < input.cols(); c++) {
+                        double[] cols = input.get(r, c);
+
+                        input.put(r, c, cols[typeOrdinal], cols[typeOrdinal], cols[typeOrdinal]);
+                    }
+                }
+
+            Imgproc.cvtColor(input, input, Imgproc.COLOR_BGR2GRAY);
+
+            ArrayList<MatOfPoint> contours = new ArrayList<>();
+
+            Imgproc.findContours(input, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+            int max = 0;
+            MatOfPoint maxCont = contours.get(0);
+
+            for(int i = 1; i < contours.size(); i++) {
+                MatOfPoint cont = contours.get(i);
+
+                if(cont.height() > maxCont.height()) {
+                    max = i;
+                    maxCont = cont;
+                }
+            }
+
+            int[] data = new int[maxCont.height() * 2];
+
+            maxCont.get(0, 0, data);
+
+
+            int xMin = Integer.MAX_VALUE, xMax = Integer.MIN_VALUE, yMin = Integer.MAX_VALUE, yMax = Integer.MIN_VALUE;
+
+            for(int i = 0; i < data.length; i++) {
+                if(data[i] > xMax)
+                    xMax = data[i];
+                if(data[i] < xMin)
+                    xMin = data[i];
+
+                i++;
+
+                if(data[i] > yMax)
+                    yMax = data[i];
+                if(data[i] < yMin)
+                    yMin = data[i];
+            }
+
+            return new Rectangle(xMin, yMin, xMax, yMax);
+        }
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    //HARD FEATURES
 
 
 }
