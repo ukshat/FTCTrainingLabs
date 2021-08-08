@@ -37,26 +37,26 @@ public final class EasyCV{
         initCam(opMode.hardwareMap, webCamName);
     }
 
-    public void start(int w, int h, OpenCvCameraRotation r){
+    public final void start(int w, int h, OpenCvCameraRotation r){
         webcam.startStreaming(w, h, r);
     }
 
-    public void pause(){
+    public final void pause(){
         webcam.stopStreaming();
     }
 
-    public void closeAsync(){
+    public final void closeAsync(){
         webcam.closeCameraDeviceAsync(new OpenCvCamera.AsyncCameraCloseListener() {
             @Override
             public void onClose() {}
         });
     }
 
-    public void close(){
+    public final void close(){
         webcam.closeCameraDevice();
     }
 
-    private void initCam(HardwareMap hw, String webCamName) {
+    private final void initCam(HardwareMap hw, String webCamName) {
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hw.get(WebcamName.class, webCamName));
         webcam.setPipeline(pipeline);
         webcam.openCameraDevice();
@@ -70,7 +70,7 @@ public final class EasyCV{
     private volatile ArrayList<Computation> streams = new ArrayList<>();
     private volatile boolean streamingComputations = true;
 
-    public boolean resumeStreamComputations(){
+    public final boolean resumeStreamComputations(){
         if(streamingComputations)
             return false;
 
@@ -78,7 +78,7 @@ public final class EasyCV{
         return true;
     }
 
-    public boolean pauseStreamComputations(){
+    public final boolean pauseStreamComputations(){
         if(!streamingComputations)
             return false;
 
@@ -86,7 +86,7 @@ public final class EasyCV{
         return true;
     }
 
-    private class Pipeline extends OpenCvPipeline {
+    private final class Pipeline extends OpenCvPipeline {
 
         @Override
         public Mat processFrame(Mat input) {
@@ -122,11 +122,11 @@ public final class EasyCV{
 
     private volatile HashMap<String, Object> queue;
 
-    public boolean isDataReady(String tagLine){
+    public final boolean isDataReady(String tagLine){
         return queue.containsKey(tagLine) && queue.get(tagLine) != null;
     }
 
-    public Object removeFromQueue(String tagLine){
+    public final Object removeFromQueue(String tagLine){
         removeFromStreams(tagLine);
 
         if(hasReceivedCommand(tagLine))
@@ -135,22 +135,22 @@ public final class EasyCV{
         return null;
     }
 
-    public Object getData(String tagLine){
+    public final Object getData(String tagLine){
         if(hasReceivedCommand(tagLine))
             return queue.get(tagLine);
 
         return null;
     }
 
-    public boolean hasReceivedCommand(String tagLine){
+    public final boolean hasReceivedCommand(String tagLine){
         return queue.containsKey(tagLine);
     }
 
-    private void recievedCommand(String tagLine){
+    private final void recievedCommand(String tagLine){
         queue.put(tagLine, null);
     }
 
-    public void removeFromStreams(String tagLine){
+    public final void removeFromStreams(String tagLine){
         for(Computation c : streams)
             if(c.tagLine.equals(tagLine)) {
                 streams.remove(c);
@@ -158,7 +158,7 @@ public final class EasyCV{
             }
     }
 
-    private void dataLoaded(String tagLine, Object data){
+    private final void dataLoaded(String tagLine, Object data){
         queue.remove(tagLine);
         queue.put(tagLine, data);
     }
@@ -196,51 +196,51 @@ public final class EasyCV{
         }
     }
 
-    public boolean getPercentOfColor(final String tagLine, Configuration config, final Color lowerBound, final Color upperBound){
+    public final boolean getPercentOfColor(final String tagLine, Configuration config, final Color lowerBound, final Color upperBound){
         return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, new Filters(), lowerBound, upperBound), config);
     }
 
-    public boolean getPercentOfColor(final String tagLine, Configuration config, final Color lowerBound, final Color upperBound, Filters params){
+    public final boolean getPercentOfColor(final String tagLine, Configuration config, final Color lowerBound, final Color upperBound, Filters params){
         return imageComputationProcedure(tagLine, new PercentOfColorComputation(tagLine, params, lowerBound, upperBound), config);
     }
 
-    public boolean getAverageColor(final String tagLine, Configuration config){
+    public final boolean getAverageColor(final String tagLine, Configuration config){
         return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine, new Filters()), config);
     }
 
-    public boolean getAverageColor(final String tagLine, Configuration config, Filters params){
+    public final boolean getAverageColor(final String tagLine, Configuration config, Filters params){
         return imageComputationProcedure(tagLine, new AverageColorComputation(tagLine, params), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, 2, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, blur, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, blur, invert, GrayScaleType.DEFAULT_GRAYSCALE), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, GrayScaleType type){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, GrayScaleType type){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, new Filters(), saturation, scale, blur, invert, type), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, Filters params){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, Filters params){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, 2, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, Filters params){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, Filters params){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, blur, false, GrayScaleType.DEFAULT_GRAYSCALE), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, Filters params){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, Filters params){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, blur, invert, GrayScaleType.DEFAULT_GRAYSCALE), config);
     }
 
-    public boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, GrayScaleType type, Filters params){
+    public final boolean getBlobByContours(final String tagLine, Configuration config, double saturation, double scale, int blur, boolean invert, GrayScaleType type, Filters params){
         return imageComputationProcedure(tagLine, new BlobDetectionByContourCalculation(tagLine, params, saturation, scale, blur, invert, type), config);
     }
 
@@ -268,7 +268,7 @@ public final class EasyCV{
         protected abstract Object compute(Mat input);
     }
 
-    private class PercentOfColorComputation extends Computation {
+    private final class PercentOfColorComputation extends Computation {
         private final Color lowerBound, upperBound;
 
         public PercentOfColorComputation(String tagLine, Filters params, Color lowerBound, Color upperBound){
@@ -288,7 +288,7 @@ public final class EasyCV{
         }
     }
 
-    private class AverageColorComputation extends Computation{
+    private final class AverageColorComputation extends Computation{
 
         public AverageColorComputation(String tagLine, Filters params) {
             super(tagLine, params);
@@ -303,7 +303,7 @@ public final class EasyCV{
         }
     }
 
-    private class BlobDetectionByContourCalculation extends Computation{
+    private final class BlobDetectionByContourCalculation extends Computation{
         private final double saturation, scale;
         private final int blur;
         private final boolean invert;

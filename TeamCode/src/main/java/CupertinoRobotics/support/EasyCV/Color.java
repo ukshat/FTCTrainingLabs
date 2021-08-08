@@ -1,28 +1,28 @@
 package CupertinoRobotics.support.EasyCV;
 
 public final class Color {
-    private double[] HSVs;
+    private final double[] HSVs;
 
     private Color(double H, double S, double V) {
         HSVs = new double[] {H, S, V};
     }
 
-    public static Color fromHSV(double H, double S, double V){
+    public final static Color fromHSV(double H, double S, double V){
         return new Color(H, S, V);
     }
 
-    private static Color fromHSV(double[] HSVVals){
+    private final static Color fromHSV(double[] HSVVals){
         if(HSVVals.length != 3)
             throw new IllegalArgumentException("Array Must contain exactly 3 values for Hue, Saturation, and Value");
         return new Color(HSVVals[0], HSVVals[1], HSVVals[2]);
     }
 
-    public static Color fromRGB(double R, double G, double B){
+    public final static Color fromRGB(double R, double G, double B){
         double[] HSV = RGBToHSV(new double[] {R, G, B});
         return new Color(HSV[0], HSV[1], HSV[2]);
     }
 
-    private static double[] RGBToHSV(double[] RGBs) {
+    private final static double[] RGBToHSV(double[] RGBs) {
         // RGB to HSV algorithm adapted from https://stackoverflow.com/q/2399150
         if (!(RGBs[0] >= 0 && RGBs[0] <= 255 && RGBs[1] >= 0 && RGBs[1] <= 255 && RGBs[2] >= 0 && RGBs[2] <= 255))
             throw new IllegalArgumentException("Make sure R, G, and B are all in [0, 255]");
@@ -41,12 +41,12 @@ public final class Color {
 
     }
 
-    public double[] getHSV(){
+    public final double[] getHSV(){
         return HSVs;
     }
 
     @Override
-    public String toString(){
+    public final String toString(){
         return "H: " + HSVs[0] + ", S: " + HSVs[1] + ", V: " + HSVs[2];
     }
 
