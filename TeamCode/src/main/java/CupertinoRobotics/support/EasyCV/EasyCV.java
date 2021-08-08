@@ -342,7 +342,11 @@ public final class EasyCV{
 
             ArrayList<MatOfPoint> contours = new ArrayList<>();
 
-            Imgproc.findContours(input, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+            Mat temp = new Mat();
+
+            Imgproc.findContours(input, contours, temp, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+            temp.release();
 
             int max = 0;
             MatOfPoint maxCont = contours.get(0);
@@ -360,6 +364,8 @@ public final class EasyCV{
 
             maxCont.get(0, 0, data);
 
+            for(MatOfPoint mat : contours)
+                mat.release();
 
             int xMin = Integer.MAX_VALUE, xMax = Integer.MIN_VALUE, yMin = Integer.MAX_VALUE, yMax = Integer.MIN_VALUE;
 
