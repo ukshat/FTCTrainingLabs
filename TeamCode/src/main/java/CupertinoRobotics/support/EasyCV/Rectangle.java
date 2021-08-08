@@ -9,4 +9,9 @@ public final class Rectangle {
         this.xMax = xMax;
         this.yMax = yMax;
     }
+
+    @Override
+    public final String toString(){
+        return "X Min: " + xMin + ", X Max: " + xMax + "Y Min: " + yMin + ", Y Max: " + yMax;
+    }
 }

@@ -14,6 +14,8 @@ import CupertinoRobotics.support.EasyCV.CustomFilter;
 import CupertinoRobotics.support.EasyCV.EasyCV;
 import CupertinoRobotics.support.EasyCV.Filters;
 import CupertinoRobotics.support.EasyCV.Rectangle;
+import CupertinoRobotics.support.Telemetry.PrintMode;
+import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 
 @TeleOp(name = "CV")
 public class EasyCVTest1 extends LinearOpMode {
@@ -22,10 +24,13 @@ public class EasyCVTest1 extends LinearOpMode {
     private final int CAM_WIDTH = 1280;
     private final int CAM_HEIGHT = 720;
     private final String TEST_TAGLINE = "Test Tagline";
+    private final SimplePrintStream telem = new SimplePrintStream(telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
         easyCV = new EasyCV(this, "Webcam 1");
+
+        telem.setPrintMode(PrintMode.REPLACE);
 
         waitForStart();
 
@@ -33,116 +38,32 @@ public class EasyCVTest1 extends LinearOpMode {
 
         sleep(2000);
 
-        customFilterTest();
+        contourBlobTest();
 
         while(opModeIsActive()) sleep(100);
 
     }
 
-    private final void println(String str){
-        telemetry.addLine(str);
-        telemetry.update();
-    }
-
-    private final void println(boolean str){
-        telemetry.addLine(String.valueOf(str));
-        telemetry.update();
-    }
-
-    private final void println(int str){
-        telemetry.addLine(String.valueOf(str));
-        telemetry.update();
-    }
-
-    private final void println(Object str){
-        telemetry.addLine(str != null ? str.toString() : "null");
-        telemetry.update();
-    }
-
     private final void synchronousTest(){
 
-        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
+        telem.println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
         sleep(1000);
         easyCV.getAverageColor(TEST_TAGLINE, Configuration.SYNCHRONOUS_SINGLE_FRAME);
-        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
+        telem.println(easyCV.hasReceivedCommand(TEST_TAGLINE));
 
-        println(easyCV.removeFromQueue(TEST_TAGLINE));
+        telem.println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 
-    private final void asyncTest(){
+    private final void contourBlobTest(){
+        easyCV.getBlobByContours(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM, -300, 3, 3, false);
 
-        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
+        while(opModeIsActive()){
+            telem.println(easyCV.getData(TEST_TAGLINE));
 
-        sleep(1000);
-        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_SINGLE_FRAME);
-        println(easyCV.hasReceivedCommand(TEST_TAGLINE));
-
-        int i;
-
-        for(i = 0; opModeIsActive() && !easyCV.isDataReady(TEST_TAGLINE); i++){
-            sleep(20);
+            sleep(300);
         }
+        telem.println(easyCV.removeFromQueue(TEST_TAGLINE));
 
-        println(i + "    " + easyCV.removeFromQueue(TEST_TAGLINE).toString());
-    }
-
-    private final void streamTest(){
-
-        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
-
-        sleep(1000);
-        int i;
-        for(i = 0; opModeIsActive() && i < 40; i++){
-            println(easyCV.queue.toString());
-
-            sleep(500);
-        }
-
-        println(easyCV.removeFromQueue(TEST_TAGLINE));
-    }
-
-    private final void restrictSizeTest(){
-
-        Filters filters = new Filters();
-        filters.setImageBound(new Rectangle(0, 0, CAM_WIDTH / 2, CAM_HEIGHT));
-        Filters filters2 = new Filters();
-        filters2.setImageBound(new Rectangle(CAM_WIDTH / 2, 0, CAM_WIDTH, CAM_HEIGHT));
-
-        easyCV.getAverageColor(TEST_TAGLINE + " 2", Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM);
-        easyCV.getAverageColor(TEST_TAGLINE + " 3", Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM, filters2);
-
-        easyCV.getAverageColor(TEST_TAGLINE, Configuration.ASYNCHRONOUS_CONTINUOUS_STREAM, filters);
-
-        int i;
-        for(i = 0; opModeIsActive() && i < 40; i++){
-            println("L" + easyCV.getData(TEST_TAGLINE)
-            + "\nA" + easyCV.getData(TEST_TAGLINE + " 2")
-             + "\nR" + easyCV.getData(TEST_TAGLINE + " 3"));
-
-            sleep(500);
-        }
-
-        println(i * 20);
-
-        println(easyCV.removeFromQueue(TEST_TAGLINE));
-    }
-
-    private final void customFilterTest(){
-
-        Filters filters = new Filters();
-        filters.addCustomFilters(new CustomFilter(){
-            @Override
-            public Mat filter(Mat input) {
-                Mat ret = new Mat();
-                Imgproc.cvtColor(input, ret, Imgproc.COLOR_RGB2HSV_FULL);
-                Core.inRange(ret, new Scalar(100, 1, 1), new Scalar(255, 255, 255), ret);
-                return ret;
-            }
-        });
-
-        easyCV.getAverageColor(TEST_TAGLINE, Configuration.SYNCHRONOUS_SINGLE_FRAME, filters);
-
-        println(easyCV.removeFromQueue(TEST_TAGLINE));
     }
 }
