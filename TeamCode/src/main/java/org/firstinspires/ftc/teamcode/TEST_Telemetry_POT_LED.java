@@ -3,9 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import CupertinoRobotics.support.Hardware.DigitalChannelLED.DigitalChannelLED;
-import CupertinoRobotics.support.Hardware.DigitalChannelLED.LEDState;
-import CupertinoRobotics.support.Hardware.Potentiometer.Potentiometer;
+import CupertinoRobotics.support.Hardware.LEDIndicator;
+import CupertinoRobotics.support.Hardware.Potentiometer;
 import CupertinoRobotics.support.Telemetry.PrintMode;
 import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 
@@ -13,13 +12,13 @@ import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 public class TEST_Telemetry_POT_LED extends LinearOpMode {
     SimplePrintStream telem;
     Potentiometer pot;
-    DigitalChannelLED led;
+    LEDIndicator led;
 
     @Override
     public void runOpMode() throws InterruptedException {
         telem = new SimplePrintStream(telemetry);
         pot = new Potentiometer(hardwareMap, "pot");
-        led = new DigitalChannelLED(hardwareMap, "rLED", "gLED");
+        led = new LEDIndicator(hardwareMap, "rLED", "gLED");
 
         waitForStart();
 
@@ -30,13 +29,13 @@ public class TEST_Telemetry_POT_LED extends LinearOpMode {
                 telem.setPrintMode(PrintMode.REPLACE);
 
             if(pot.getPosition() < 67.5)
-                led.setState(LEDState.NONE);
+                led.setState(LEDIndicator.State.NONE);
             else if(pot.getPosition() < 135)
-                led.setState(LEDState.RED);
+                led.setState(LEDIndicator.State.RED);
             else if(pot.getPosition() < 202.5)
-                led.setState(LEDState.GREEN);
+                led.setState(LEDIndicator.State.GREEN);
             else
-                led.setState(LEDState.AMBER);
+                led.setState(LEDIndicator.State.AMBER);
 
             telem.println(led.getState().name());
 
