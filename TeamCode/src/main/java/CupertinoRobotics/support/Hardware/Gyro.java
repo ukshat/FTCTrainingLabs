@@ -3,6 +3,9 @@ package CupertinoRobotics.support.Hardware;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Gyro {
@@ -26,8 +29,8 @@ public class Gyro {
         setUnit(unit);
     }
 
-    public double getPosition() {
-        return imu.getAngularOrientation().firstAngle * (unit == Unit.DEGREES ? 180 / Math.PI : 1);
+    public double getDirection() {
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle * (unit == Unit.DEGREES ? 180 / Math.PI : 1);
     }
 
     public Unit getUnit() {
