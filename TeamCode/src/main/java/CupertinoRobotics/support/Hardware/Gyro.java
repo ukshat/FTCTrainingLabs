@@ -6,38 +6,32 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Gyro {
 
     private final BNO055IMU imu;
 
-    private Unit unit;
-
-    public enum Unit {
-        DEGREES,
-        RADIANS
-    }
+    private AngleUnit unit;
 
     public Gyro(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        setUnit(Unit.RADIANS);
+        setUnit(AngleUnit.RADIANS);
     }
 
-    public Gyro(HardwareMap hardwareMap, Unit unit) {
+    public Gyro(HardwareMap hardwareMap, AngleUnit unit) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         setUnit(unit);
     }
 
-    public double getDirection() {
-        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle * (unit == Unit.DEGREES ? 180 / Math.PI : 1);
+    public double getAngle() {
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, unit).firstAngle;
     }
 
-    public Unit getUnit() {
+    public AngleUnit getUnit() {
         return unit;
     }
 
-    public void setUnit(Unit unit) {
+    public void setUnit(AngleUnit unit) {
         this.unit = unit;
     }
 
