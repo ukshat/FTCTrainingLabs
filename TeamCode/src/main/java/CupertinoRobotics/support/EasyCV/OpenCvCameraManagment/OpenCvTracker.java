@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 OpenFTC Team
+ * Copyright (c) 2019 OpenFTC Team
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,31 +19,19 @@
  * SOFTWARE.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Mat;
 
-interface OpenCvSwitchableWebcam extends OpenCvCamera
+public abstract class OpenCvTracker
 {
-    /**
-     * Switches the active camera to the indicated member
-     * @param cameraName the name of the to-be-activated camera.
-     *
-     * @see #getActiveCamera()
-     */
-    void setActiveCamera(WebcamName cameraName);
+    private Mat mat = new Mat();
 
-    /**
-     * Returns the name of the currently active member camera
-     * @return the name of the currently active member camera
-     *
-     * @see #setActiveCamera(WebcamName)
-     */
-    WebcamName getActiveCamera();
+    public abstract Mat processFrame(Mat input);
 
-    /**
-     * Returns the list of {@link WebcamName}s which are members of this {@link OpenCvSwitchableWebcam}.
-     * @return the list of {@link WebcamName}s which are members of this {@link OpenCvSwitchableWebcam}.
-     */
-    WebcamName[] getMembers();
+    protected final Mat processFrameInternal(Mat input)
+    {
+        input.copyTo(mat);
+        return processFrame(mat);
+    }
 }

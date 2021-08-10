@@ -3,17 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-import CupertinoRobotics.support.EasyCV.easyopencv.OpenCvCameraRotation;
+import CupertinoRobotics.support.EasyCV.OpenCvCameraManagment.OpenCvCameraRotation;
 
 import CupertinoRobotics.support.EasyCV.Configuration;
-import CupertinoRobotics.support.EasyCV.CustomFilter;
 import CupertinoRobotics.support.EasyCV.EasyCV;
-import CupertinoRobotics.support.EasyCV.Filters;
-import CupertinoRobotics.support.EasyCV.Rectangle;
 import CupertinoRobotics.support.Telemetry.PrintMode;
 import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 

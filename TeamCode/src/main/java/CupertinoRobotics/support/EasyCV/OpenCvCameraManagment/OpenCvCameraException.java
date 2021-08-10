@@ -19,19 +19,12 @@
  * SOFTWARE.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
-import org.opencv.core.Mat;
-
-public abstract class OpenCvTracker
+public class OpenCvCameraException extends RuntimeException
 {
-    private Mat mat = new Mat();
-
-    public abstract Mat processFrame(Mat input);
-
-    protected final Mat processFrameInternal(Mat input)
+    public OpenCvCameraException(String msg)
     {
-        input.copyTo(mat);
-        return processFrame(mat);
+        super(msg);
     }
 }

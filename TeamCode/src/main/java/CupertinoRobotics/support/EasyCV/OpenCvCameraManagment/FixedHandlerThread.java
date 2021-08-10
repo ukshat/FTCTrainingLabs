@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.os.Handler;
 import android.os.Looper;

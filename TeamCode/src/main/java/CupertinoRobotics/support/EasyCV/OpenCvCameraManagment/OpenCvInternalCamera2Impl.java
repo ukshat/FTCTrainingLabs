@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -44,7 +44,6 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;

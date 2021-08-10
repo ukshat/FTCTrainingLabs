@@ -19,12 +19,12 @@
  * SOFTWARE.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
-public class OpenCvCameraException extends RuntimeException
+public enum OpenCvCameraRotation
 {
-    public OpenCvCameraException(String msg)
-    {
-        super(msg);
-    }
+    UPRIGHT,
+    UPSIDE_DOWN,
+    SIDEWAYS_LEFT,
+    SIDEWAYS_RIGHT
 }

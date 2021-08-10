@@ -19,9 +19,7 @@
  * SOFTWARE.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
-
-import android.util.Log;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import org.opencv.core.Mat;
 

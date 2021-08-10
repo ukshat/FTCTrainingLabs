@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;

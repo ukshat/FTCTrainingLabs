@@ -1,4 +1,4 @@
-package CupertinoRobotics.support.EasyCV.easyopencv;
+package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
