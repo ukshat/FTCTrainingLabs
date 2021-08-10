@@ -7,7 +7,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCameraRotation;
+import CupertinoRobotics.support.EasyCV.easyopencv.OpenCvCameraRotation;
 
 import CupertinoRobotics.support.EasyCV.Configuration;
 import CupertinoRobotics.support.EasyCV.CustomFilter;

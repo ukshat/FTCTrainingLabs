@@ -21,5 +21,5 @@ dependencies {
 }
 
 dependencies {
-    implementation 'org.openftc:easyopencv:1.4.4'
+    implementation 'org.openpnp:opencv:4.3.0-0'
 }

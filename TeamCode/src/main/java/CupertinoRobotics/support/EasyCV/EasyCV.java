@@ -11,10 +11,10 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
+import CupertinoRobotics.support.EasyCV.easyopencv.OpenCvCamera;
+import CupertinoRobotics.support.EasyCV.easyopencv.OpenCvCameraFactory;
+import CupertinoRobotics.support.EasyCV.easyopencv.OpenCvCameraRotation;
+import CupertinoRobotics.support.EasyCV.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
