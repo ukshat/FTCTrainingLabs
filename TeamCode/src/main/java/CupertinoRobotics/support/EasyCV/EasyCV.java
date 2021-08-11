@@ -67,6 +67,10 @@ public final class EasyCV{
 
 
 
+    public final Mat getLastMat(){
+        return lastMat.clone();
+    }
+
     private volatile ArrayList<Computation> streams = new ArrayList<>();
     private volatile boolean streamingComputations = true;
 
@@ -278,7 +282,7 @@ public final class EasyCV{
         }
 
         @Override
-        protected Object compute(Mat input) {
+        protected Double compute(Mat input) {
             Mat copy = new Mat();
 
             Imgproc.cvtColor(input, copy, Imgproc.COLOR_RGB2HSV_FULL);
@@ -295,7 +299,7 @@ public final class EasyCV{
         }
 
         @Override
-        protected Object compute(Mat input) {
+        protected Color compute(Mat input) {
 
             double[] hsv = Core.mean(input).val;
 
@@ -330,13 +334,12 @@ public final class EasyCV{
             int typeOrdinal = type.ordinal();
 
             if(type != GrayScaleType.DEFAULT_GRAYSCALE)
-                for(int r = 0; r < input.rows(); r++) {
+                for(int r = 0; r < input.rows(); r++)
                     for(int c = 0; c < input.cols(); c++) {
                         double[] cols = input.get(r, c);
 
                         input.put(r, c, cols[typeOrdinal], cols[typeOrdinal], cols[typeOrdinal]);
                     }
-                }
 
             Imgproc.cvtColor(input, input, Imgproc.COLOR_BGR2GRAY);
 
