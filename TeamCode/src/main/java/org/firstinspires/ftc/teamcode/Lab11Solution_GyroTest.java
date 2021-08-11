@@ -31,7 +31,7 @@ public class Lab11Solution_GyroTest extends LinearOpMode {
             First, imu.getAngularOrientation returns an Orientation object that specifies the orientation of the gyro in reference to the starting position (or wherever it is zeroed);
             This orientation object can be with respect to many different ways of tracking orientation, but here is a quick summary of the way we have chosen.
 
-            The first parameter indicates whether we have intrinsic rotations, where the axes move with the object that is rotating, or extrinsic rotations, where they remain fixed in the world around the object.
+            The first parameter indicates whether we have intrinsic rotations, where the axes moves with the object that is rotating, or extrinsic rotations, where they remain fixed in the world around the object.
             The axes order parameter simply defines the order in which the angles are presented in the object (we want to know the rotation around the z-axis, so for simplicity we can put that first)
             Last parameter merely specifies degrees again. Although we specified this in params, this way of calling the method to specify intrinsic rotation requires we specify units again.
              */
