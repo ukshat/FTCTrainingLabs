@@ -35,7 +35,6 @@
 package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.graphics.ImageFormat;
-//import android.support.annotation.Nullable;
 
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -50,19 +49,25 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCharacteri
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraException;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraFrame;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.CameraControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.FocusControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.PtzControl;
 import org.firstinspires.ftc.robotcore.internal.camera.CameraManagerInternal;
 import org.firstinspires.ftc.robotcore.internal.camera.ImageFormatMapper;
+import org.firstinspires.ftc.robotcore.internal.camera.RenumberedCameraFrame;
+import org.firstinspires.ftc.robotcore.internal.camera.libuvc.api.UvcApiCameraFrame;
+import org.firstinspires.ftc.robotcore.internal.camera.libuvc.nativeobject.UvcFrame;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import org.firstinspires.ftc.robotcore.internal.vuforia.externalprovider.CameraMode;
 import org.firstinspires.ftc.robotcore.internal.vuforia.externalprovider.FrameFormat;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;

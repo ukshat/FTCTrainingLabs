@@ -37,7 +37,6 @@ import android.view.SurfaceView;
 import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import org.firstinspires.ftc.robotcore.external.function.Consumer;
 import org.firstinspires.ftc.robotcore.internal.collections.EvictingBlockingQueue;
-import org.firstinspires.ftc.teamcode.BuildConfig;
 import org.opencv.core.Mat;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -563,7 +562,7 @@ public class OpenCvViewport extends SurfaceView implements SurfaceHolder.Callbac
                         if(canvas != null)
                         {
                             //Convert that Mat to a bitmap we can render
-                            BitmapUtils.matToBitmap(mat, bitmapFromMat);
+                            Utils.matToBitmap(mat, bitmapFromMat);
 
                             //Draw the background each time to prevent double buffering problems
                             canvas.drawColor(Color.rgb(239,239,239)); // RC activity background color
@@ -854,7 +853,7 @@ public class OpenCvViewport extends SurfaceView implements SurfaceHolder.Callbac
         int textLine3Y = textLine2Y + statBoxTextLineSpacing;
 
         // Draw the 3 text lines
-        canvas.drawText(String.format("OpenFTC EasyOpenCV v%s", BuildConfig.VERSION_NAME),        statBoxLTxtStart, textLine1Y, fpsMeterTextPaint);
+        canvas.drawText(String.format("OpenFTC EasyOpenCV"),        statBoxLTxtStart, textLine1Y, fpsMeterTextPaint);
         canvas.drawText(String.format("FPS@%dx%d: %.2f", size.getWidth(), size.getHeight(), fps), statBoxLTxtStart, textLine2Y, fpsMeterTextPaint);
         canvas.drawText(String.format("Pipeline: %dms - Overhead: %dms", pipelineMs, overheadMs), statBoxLTxtStart, textLine3Y, fpsMeterTextPaint);
     }

@@ -21,6 +21,7 @@
 
 package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraControls;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.FocusControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;

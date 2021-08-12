@@ -14,7 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BitmapUtils {
+public class Utils {
 
     public static String exportResource(Context context, int resourceId) {
         return exportResource(context, resourceId, "OpenCV_data");

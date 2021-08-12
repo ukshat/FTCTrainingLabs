@@ -22,7 +22,6 @@
 package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.content.Context;
-
 import androidx.annotation.IdRes;
 
 import com.qualcomm.robotcore.eventloop.opmode.AnnotatedOpModeManager;

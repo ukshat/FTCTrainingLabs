@@ -38,7 +38,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.internal.camera.delegating.SwitchableCameraName;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.firstinspires.ftc.teamcode.BuildConfig;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -73,7 +72,7 @@ class OpenCvCameraFactoryImpl extends OpenCvCameraFactory
     {
         if(appVersion < sdk6_1_versionCode)
         {
-            throw new RuntimeException(String.format("EasyOpenCV v%s is only compatible with SDK v%s or greater!", BuildConfig.VERSION_NAME, sdk_6_1));
+            throw new RuntimeException(String.format("EasyOpenCV is only compatible with SDK v%s or greater!", sdk_6_1));
         }
     }
 

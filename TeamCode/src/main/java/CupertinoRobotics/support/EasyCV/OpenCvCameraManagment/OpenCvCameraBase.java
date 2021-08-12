@@ -48,7 +48,7 @@ import org.firstinspires.ftc.robotcore.external.stream.CameraStreamServer;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeManagerImpl;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.firstinspires.ftc.teamcode.BuildConfig;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -104,7 +104,7 @@ public abstract class OpenCvCameraBase implements OpenCvCamera, CameraStreamSour
 
     public OpenCvCameraBase()
     {
-        System.out.println("OpenCvCameraBase ctor: EasyOpenCV version " + BuildConfig.VERSION_NAME);
+        System.out.println("OpenCvCameraBase");
 
         frameCount = 0;
         LIFO_OpModeCallbackDelegate.getInstance().add(opModeNotifications);
@@ -590,7 +590,7 @@ public abstract class OpenCvCameraBase implements OpenCvCamera, CameraStreamSour
 
                 final Bitmap bitmapFromMat = Bitmap.createBitmap(matToCvt.cols(), matToCvt.rows(), Bitmap.Config.RGB_565);
 
-                BitmapUtils.matToBitmap(matToCvt, bitmapFromMat);
+                Utils.matToBitmap(matToCvt, bitmapFromMat);
 
                 if (bitmapFromMat != null)
                 {

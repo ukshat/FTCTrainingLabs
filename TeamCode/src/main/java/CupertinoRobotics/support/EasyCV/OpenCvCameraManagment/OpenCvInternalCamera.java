@@ -23,7 +23,7 @@ package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import android.hardware.Camera;
 
-interface OpenCvInternalCamera extends OpenCvCamera
+public interface OpenCvInternalCamera extends OpenCvCamera
 {
     enum CameraDirection
     {

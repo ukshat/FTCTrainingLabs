@@ -23,7 +23,7 @@ package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-interface OpenCvSwitchableWebcam extends OpenCvCamera
+public interface OpenCvSwitchableWebcam extends OpenCvCamera
 {
     /**
      * Switches the active camera to the indicated member

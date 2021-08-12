@@ -396,7 +396,6 @@ class OpenCvInternalCameraImpl extends OpenCvCameraBase implements Camera.Previe
          * (If we could, then we could have the camera dump the preview
          * image directly into the Mat).
          *
-         *
          */
         if(rawSensorMat != null)
         {

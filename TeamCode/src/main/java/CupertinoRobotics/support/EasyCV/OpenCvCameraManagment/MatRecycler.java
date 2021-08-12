@@ -21,6 +21,8 @@
 
 package CupertinoRobotics.support.EasyCV.OpenCvCameraManagment;
 
+import android.util.Log;
+
 import org.opencv.core.Mat;
 
 import java.util.concurrent.ArrayBlockingQueue;
