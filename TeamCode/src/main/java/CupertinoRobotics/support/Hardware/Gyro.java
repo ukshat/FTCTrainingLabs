@@ -15,11 +15,13 @@ public class Gyro {
 
     public Gyro(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(new BNO055IMU.Parameters());
         setUnit(AngleUnit.RADIANS);
     }
 
     public Gyro(HardwareMap hardwareMap, AngleUnit unit) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(new BNO055IMU.Parameters());
         setUnit(unit);
     }
 
