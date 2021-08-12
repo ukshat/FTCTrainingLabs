@@ -11,7 +11,7 @@ import CupertinoRobotics.support.Hardware.Potentiometer;
 import CupertinoRobotics.support.Telemetry.PrintMode;
 import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 
-@TeleOp(name = "telem pot test")
+@TeleOp(name = "telem gyro test")
 public class TEST_Telemetry_GYRO extends LinearOpMode {
     SimplePrintStream telem;
     Gyro gyro;
