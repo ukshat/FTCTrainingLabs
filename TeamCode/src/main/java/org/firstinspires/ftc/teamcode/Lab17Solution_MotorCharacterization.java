@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-@TeleOp(name = "Motor Characterization")
+@TeleOp(name = "Motor Characterization Solution")
 public class Lab17Solution_MotorCharacterization extends LinearOpMode {
 
     private DcMotor m;
