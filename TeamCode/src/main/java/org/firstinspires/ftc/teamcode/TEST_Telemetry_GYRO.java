@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import CupertinoRobotics.support.Hardware.Gyro;
-import CupertinoRobotics.support.Hardware.LEDIndicator;
-import CupertinoRobotics.support.Hardware.Potentiometer;
-import CupertinoRobotics.support.Telemetry.PrintMode;
 import CupertinoRobotics.support.Telemetry.SimplePrintStream;
 
 @TeleOp(name = "telem gyro test")
