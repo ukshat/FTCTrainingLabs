@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Motor Characterization")
+@TeleOp(name = "Motor Speed Control")
 public class Lab18Template_ChangingSpeed extends LinearOpMode {
 
     @Override

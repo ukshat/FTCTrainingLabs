@@ -11,15 +11,15 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import CupertinoRobotics.support.EasyCV.ContourBlobDetection.GrayScaleType;
-import CupertinoRobotics.support.EasyCV.OpenCvCameraManagment.OpenCvCamera;
-import CupertinoRobotics.support.EasyCV.OpenCvCameraManagment.OpenCvCameraFactory;
-import CupertinoRobotics.support.EasyCV.OpenCvCameraManagment.OpenCvCameraRotation;
-import CupertinoRobotics.support.EasyCV.OpenCvCameraManagment.OpenCvPipeline;
 
 public final class EasyCV{
     //THE FOLLOWING CODE HANDLES BASIC PIPELINE SETUP
@@ -27,7 +27,7 @@ public final class EasyCV{
     private OpenCvCamera webcam;
     private volatile Pipeline pipeline = new Pipeline();
     private volatile Mat lastMat;
-    private volatile LinearOpMode opMode;
+    public static volatile LinearOpMode opMode;
 
     public <O extends LinearOpMode> EasyCV(O opMode, String webCamName){
         queue = new HashMap<>();
