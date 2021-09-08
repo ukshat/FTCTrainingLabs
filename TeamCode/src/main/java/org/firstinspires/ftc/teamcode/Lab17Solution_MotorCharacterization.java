@@ -15,7 +15,7 @@ public class Lab17Solution_MotorCharacterization extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        m = hardwareMap.dcMotor.get("testMotor");
+        m = hardwareMap.dcMotor.get("motor");
         m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         m.setPower(0);
 
