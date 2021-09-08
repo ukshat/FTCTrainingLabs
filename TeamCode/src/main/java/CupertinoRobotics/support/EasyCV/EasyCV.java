@@ -19,6 +19,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import CupertinoRobotics.support.EasyCV.ContourBlobDetection.GrayScaleType;
 
 public final class EasyCV{
